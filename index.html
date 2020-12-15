@@ -1,19 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>ACE in Action</title>
+<title>Talon Practice</title>
 <style type="text/css" media="screen">
+	body {
+	    background: #26526f;
+	    font-size: 16px;
+	    font-weight: 100;
+	    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+        color: #ffffff;
+	}
+
     #editor { 
         position: absolute;
-		width: calc(50% - 50px );
-        top: 300px;
+		width: calc(50% - 75px );
+        top: 200px;
         right: 0;
         bottom: 0;
         left: 50px;
+		height: calc(100% - 250px );
     }
+	
+    #editor2 { 
+        position: absolute;
+		width: calc(50% - 75px );
+        top: 200px;
+        right: 50px;
+        bottom: 0;
+		height: calc(100% - 250px );
+		opacity: 0.8
+    }
+	
 	
 	header {
 		text-align: center;
+	}
+	
+	#current-lesson {
+		display: none;
 	}
 	
 	section.sidebar {
@@ -22,11 +46,73 @@
 		left: 50%;
 		padding: 20px;
 		padding-top: 0;
+		display: none;
+	}
+	
+	#toggle-game {
+		background: #FFFFFF;
+		color: #000000;
+		font-size: 30px;
+		font-weight: bold;
+		padding: 10px;
+		border-radius: 10px;
+		border: 0px;
+	}
+	
+	#toggle-game:focus {
+		border: 5px solid #21af42;
+		background: #26526f;
+		color: #FFFFFF;
+		border-radius: 15px;
+		padding: 5px;		
+		outline: 0;
+	}
+	
+	#toggle-game:active {
+		border: 5px solid #21af42;
+		background: #21af42;
+		outline: 0;
 	}
 	
 	#expected-result {
 		font-size: 24px;
 		margin-top: 0;
+	}
+	
+	.lesson-choice {
+		background: #FFFFFF;
+		border-radius: 10px;
+		color: #26526f;		
+		width: 20%;
+		padding: 10px;
+		display: inline-block;
+		margin-right: 10px;
+		margin-bottom: 10px;
+		transition: background 0.2s;
+	}
+		
+	.lesson-choice p {
+		text-align: left;
+	}
+	
+	.lesson-choice:focus {
+		border: 5px solid #21af42;
+		background: #26526f;
+		color: #FFFFFF;
+		padding: 5px;
+		outline: none;
+	}
+	
+	.lesson-choice:active {
+		background: #21af42;
+	}
+	
+	.lesson-choice.selected {
+		background: #21af42;
+	}
+	
+	.template-elements {
+		display: none;
 	}
 	
 	#timer {
@@ -36,42 +122,61 @@
 		font-family: Arial;
 	}
 </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ace.min.js" type="text/javascript" charset="utf-8"></script>
 </head>
 <body>
 <header>
 	<h1>Talon practice</h1>
-	<p>Practice commands using a simple example. Start a lesson by saying Escape - Tab - Enter.</p>
+	<p>This is a webpage designed to help practice your Talon Voice usage. You can use it with a mouse or using Talon commands.</p>
+	<p>If you want to choose a lesson, say "tab". From here, you can say "go right" to move to the next lesson, and "go left" to go to the previous one. Saying "enter" or "slap" will start the lesson.</p>	
 	
-	<h2 id="lesson-title"></h2>
-	<p id="lesson-description"></p>	
-</header>
-
-<div id="editor">
-</div>
-
-<section class="sidebar">
-	<p id="expected-result"></p>
-	<button id="toggle-game" onclick="toggleGame()" tabindex="0">Start game</button>
+	<h2>Choose a lesson</h2>
 	
-	<p id="timer">00:00.0</p>
-	
-	<div id="before-game">
-		<h3 id="calculated-score"></h3>
-		<br/>
-		<div id="score-explanation"></div>
-		<div id="highscore"></div>
+	<div id="lesson-choices">		
 	</div>
 	
+	<section class="lesson-explanation">
+	</section>
+</header>
+
+<div class="template-elements">
+	<div id="template-lesson-choice" class="lesson-choice">
+		<h3>{{TITLE}}</h3>
+		<p>{{DESCRIPTION}}</p>
+	</div>
+</div>
+
+<div id="current-lesson">
+	<div id="editor">
+	</div>
+		
+	<section class="sidebar">
+		<p id="expected-result"></p>
+		<button id="toggle-game" onclick="toggleGame()" tabindex="0">Start game</button>
+		
+		<p id="timer">00:00.0</p>
+		
+		<div id="before-game">
+			<h3 id="calculated-score"></h3>
+			<br/>
+			<div id="score-explanation"></div>
+			<div id="highscore"></div>
+		</div>		
+	</section>
+	
+	<div id="editor2">
+	</div>	
 </div>
     
-<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ace.min.js" type="text/javascript" charset="utf-8"></script>
 <script>
 	var changes = 0;
     var editor = ace.edit("editor");
+	var exampleEditor = ace.edit("editor2");
+	exampleEditor.setReadOnly(true);
 	editor.on('change', function() {
 		changes++;
 	});
-	
+		
 	function reset() {
 		changes = 0;
 	}
@@ -109,15 +214,62 @@
 	editor.focus();
 	
 	var currentLesson = null;
-	var lesson = {
-		title: "Lesson: Talon Alphabet",
-		description: "This is a quick alphabet challenge for practicing the Talon alphabet.",
+	var alphabetLesson = {
+		title: "Talon Alphabet",
+		description: "Learn the Talon alphabet.",
 		startingContent: "",
 		expectedContent: "abcdefghijklmnopqrstuvwxyz",
 		startingScore: 2000,
 		expectedChanges: 26,
 		expectedSeconds: 60
 	};
+	
+	var specialCharacterLesson = {
+		title: "Special characters",
+		description: "Get comfortable with most of the special characters used in programming.",
+		startingContent: "",
+		expectedContent: "{}()[]:;,.?!<>=_-+*'\"/\$%^&|",
+		startingScore: 2000,
+		expectedChanges: 26,
+		expectedSeconds: 120
+	};
+	
+	var lessons = [alphabetLesson, specialCharacterLesson];
+	
+	var lessonKeypress = function(lesson) {
+		return function(event) {
+			if (event.keyCode === 37 || event.keyCode === 39) {
+				var lessonList = Array.prototype.slice.call( event.target.parentNode.children );
+				var direction = event.keyCode === 37 ? -1 : 1;
+				var nextElementIndex = lessonList.indexOf( event.target ) + direction;
+				
+				if (nextElementIndex > -1 && nextElementIndex < lessonList.length ) {
+					lessonList[nextElementIndex].focus();
+				}
+			} else if (event.keyCode === 13) {
+				event.target.classList.add('selected');
+				
+				window.setTimeout(function(){
+					setLesson(lesson);
+				}, 300);
+			}
+		};
+	}
+
+	var lessonChoicesElement = document.getElementById("lesson-choices");
+	var lessonTemplateElementString = document.getElementById("template-lesson-choice").outerHTML;
+	lessons.forEach(function( lesson ){
+		lessonChoicesElement.insertAdjacentHTML('beforeend', lessonTemplateElementString
+			.replace('id="template-lesson-choice"', '')
+			.replace("{{TITLE}}", lesson.title)
+			.replace("{{DESCRIPTION}}", lesson.description));
+		var lessonChoice = lessonChoicesElement.lastChild;
+		lessonChoice.setAttribute('tabindex', "0");
+		lessonChoice.addEventListener('keyup', lessonKeypress(lesson));
+		lessonChoice.addEventListener('click', function() {
+			return setLesson(lesson);
+		});
+	});
 
 	var formatTimer = function(distance) {
 		var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
@@ -175,13 +327,8 @@
 	
 	var setLesson = function(lesson) {
 		currentLesson = lesson;
-		document.getElementById("lesson-title").innerHTML = lesson.title;
-		document.getElementById("lesson-description").innerHTML = lesson.description + "<br/> It is expected you can finish this lesson in " + lesson.expectedSeconds + " seconds using a total of " + lesson.expectedChanges + " changes.";
-		document.getElementById("expected-result").innerHTML = "<strong>Expected result</strong></br>" + lesson.expectedContent;
 		updateHighscores();
 	};
-	
-	setLesson(lesson);
 	
 	var startDateTime = new Date().getTime();	
 	var timerInterval = null;
@@ -197,6 +344,7 @@
 			reset();
 			document.getElementById("toggle-game").innerHTML = "Stop game";
 			editor.setValue(currentLesson.startingContent);
+			exampleEditor.setValue(currentLesson.expectedContent);			
 			editor.focus();
 			
 			startDateTime = new Date().getTime();			
