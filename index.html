@@ -21,6 +21,15 @@
 		height: calc(100% - 250px );
     }
 	
+	.preview #editor {
+		display: none;
+	}
+	
+	.preview #editor2 {
+        right: 0px;
+		left: 50px;
+	}
+	
     #editor2 { 
         position: absolute;
 		width: calc(50% - 75px );
@@ -35,11 +44,7 @@
 	header {
 		text-align: center;
 	}
-	
-	#current-lesson {
-		display: none;
-	}
-	
+		
 	section.sidebar {
 		position: absolute;
 		top: 300px;
@@ -48,32 +53,7 @@
 		padding-top: 0;
 		display: none;
 	}
-	
-	#toggle-game {
-		background: #FFFFFF;
-		color: #000000;
-		font-size: 30px;
-		font-weight: bold;
-		padding: 10px;
-		border-radius: 10px;
-		border: 0px;
-	}
-	
-	#toggle-game:focus {
-		border: 5px solid #21af42;
-		background: #26526f;
-		color: #FFFFFF;
-		border-radius: 15px;
-		padding: 5px;		
-		outline: 0;
-	}
-	
-	#toggle-game:active {
-		border: 5px solid #21af42;
-		background: #21af42;
-		outline: 0;
-	}
-	
+		
 	#expected-result {
 		font-size: 24px;
 		margin-top: 0;
@@ -94,10 +74,10 @@
 	.lesson-choice p {
 		text-align: left;
 	}
-	
+		
 	.lesson-choice:focus {
 		border: 5px solid #21af42;
-		background: #26526f;
+		background: #3979a0;
 		color: #FFFFFF;
 		padding: 5px;
 		outline: none;
@@ -121,24 +101,72 @@
 		font-size: 48px;
 		font-family: Arial;
 	}
+	
+	.lesson-view {
+		background: #26526f;
+		top: 100%;
+		position: absolute;
+		width: 100%;
+		height: 100%;
+	}
+	
+	.lesson-view.opened {
+		top: 0;
+		transition: top 0.5s ease 0s;		
+	}
+	
+	.lesson-view header {
+		text-align: left;
+		padding: 20px 50px;
+	}
+	
+	.lesson-view header .left-area {
+		display: inline-block;
+		width: calc( 75% - 50px );
+	}
+	
+	.lesson-view header .right-area {
+		display: inline-block;
+		width: 25%;
+	}
+	
+	.lesson-view header button {
+		background: #FFFFFF;
+		color: #000000;
+		font-size: 30px;
+		font-weight: bold;
+		padding: 10px;
+		border-radius: 10px;
+		border: 0px;
+	}
+	
+	.lesson-view header button:focus {
+		border: 5px solid #21af42;
+		background: #26526f;
+		color: #FFFFFF;
+		border-radius: 15px;
+		padding: 5px;
+		outline: 0;
+	}
+	
+	.lesson-view header button:active {
+		border: 5px solid #21af42;
+		background: #21af42;
+		outline: 0;
+	}
+	
+	#overlay {
+		display: none;
+	}
+
+	#overlay.opened {
+		display: block;
+	}
+
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ace.min.js" type="text/javascript" charset="utf-8"></script>
 </head>
 <body>
-<header>
-	<h1>Talon practice</h1>
-	<p>This is a webpage designed to help practice your Talon Voice usage. You can use it with a mouse or using Talon commands.</p>
-	<p>If you want to choose a lesson, say "tab". From here, you can say "go right" to move to the next lesson, and "go left" to go to the previous one. Saying "enter" or "slap" will start the lesson.</p>	
-	
-	<h2>Choose a lesson</h2>
-	
-	<div id="lesson-choices">		
-	</div>
-	
-	<section class="lesson-explanation">
-	</section>
-</header>
-
 <div class="template-elements">
 	<div id="template-lesson-choice" class="lesson-choice">
 		<h3>{{TITLE}}</h3>
@@ -146,26 +174,46 @@
 	</div>
 </div>
 
-<div id="current-lesson">
-	<div id="editor">
-	</div>
-		
-	<section class="sidebar">
-		<p id="expected-result"></p>
-		<button id="toggle-game" onclick="toggleGame()" tabindex="0">Start game</button>
-		
-		<p id="timer">00:00.0</p>
-		
-		<div id="before-game">
-			<h3 id="calculated-score"></h3>
-			<br/>
-			<div id="score-explanation"></div>
-			<div id="highscore"></div>
-		</div>		
-	</section>
+<header>
+	<h1>Talon practice</h1>
+	<p>This is a webpage designed to help practice your Talon Voice usage. You can use it with a mouse or using Talon commands.</p>
+	<p>If you want to choose a lesson, say "tab". From here, you can say "go right" to move to the next lesson, and "go left" to go to the previous one. Saying "enter" or "slap" will start the lesson.</p>	
 	
-	<div id="editor2">
-	</div>	
+	<h2>Choose a lesson</h2>	
+</header>
+
+<div id="lesson-choices"></div>
+<div id="overlay">
+	<div class="lesson-view preview" id="current-lesson">
+		<header>
+			<div class="left-area">
+				<h2 id="lesson-title"></h2>
+				<p  id="lesson-description"></p>
+				<p>Expected result</p>
+			</div>
+			<div class="right-area">
+				<button id="show-help" tabindex="0">Show help</button>			
+				<button id="toggle-game" onclick="toggleGame()" tabindex="0">Start game</button>
+				<button id="close-lesson" onclick="setLesson(null)" tabindex="0">Close</button>			
+				<p id="timer">00:00.0</p>
+			</div>
+		</header>
+		<div id="editor"></div>
+			
+		<section class="sidebar">
+			<p id="expected-result"></p>
+			<button id="toggle-game" onclick="toggleGame()" tabindex="0">Start game</button>
+			
+			<div id="before-game">
+				<h3 id="calculated-score"></h3>
+				<br/>
+				<div id="score-explanation"></div>
+				<div id="highscore"></div>
+			</div>
+		</section>
+		
+		<div id="editor2"></div>	
+	</div>
 </div>
     
 <script>
@@ -309,7 +357,7 @@
 		});
 	}
 
-	var updateHighscores = function() {
+	var updateHighscores = function(lesson) {
 		var scoreList = getLessonScoreList(lesson);
 		var highScoreText = "";
 		if (scoreList.length > 0) {
@@ -327,7 +375,31 @@
 	
 	var setLesson = function(lesson) {
 		currentLesson = lesson;
-		updateHighscores();
+		if ( currentLesson == null ) {
+			document.getElementById("overlay").classList.remove('opened');
+			var selectedLessons = document.getElementsByClassName('selected');
+			if (selectedLessons.length > 0) {
+				document.getElementById("current-lesson").classList.remove('opened');			
+			
+				// Prevent a lesson from being immediately opened after pressing enter
+				window.setTimeout(function(){
+					selectedLessons[0].focus();
+					selectedLessons[0].classList.remove('selected');					
+				}, 300);
+			}
+		} else {
+			document.getElementById("lesson-title").innerHTML = lesson.title;
+			document.getElementById("lesson-description").innerHTML = lesson.description;
+			exampleEditor.setValue(currentLesson.expectedContent, -1);
+			document.getElementById("overlay").classList.add('opened');
+			
+			window.requestAnimationFrame(function(){
+				document.getElementById("current-lesson").classList.add('opened');			
+			});
+			document.getElementById("show-help").focus();
+			
+			updateHighscores(currentLesson);
+		}
 	};
 	
 	var startDateTime = new Date().getTime();	
@@ -344,7 +416,6 @@
 			reset();
 			document.getElementById("toggle-game").innerHTML = "Stop game";
 			editor.setValue(currentLesson.startingContent);
-			exampleEditor.setValue(currentLesson.expectedContent);			
 			editor.focus();
 			
 			startDateTime = new Date().getTime();			
