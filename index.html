@@ -2,168 +2,7 @@
 <html lang="en">
 <head>
 <title>Talon Practice</title>
-<style type="text/css" media="screen">
-	body {
-	    background: #26526f;
-	    font-size: 16px;
-	    font-weight: 100;
-	    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-        color: #ffffff;
-	}
-
-    #editor { 
-        position: absolute;
-		width: calc(50% - 75px );
-        top: 200px;
-        right: 0;
-        bottom: 0;
-        left: 50px;
-		height: calc(100% - 250px );
-    }
-	
-	.preview #editor {
-		display: none;
-	}
-	
-	.preview #editor2 {
-        right: 0px;
-		left: 50px;
-	}
-	
-    #editor2 { 
-        position: absolute;
-		width: calc(50% - 75px );
-        top: 200px;
-        right: 50px;
-        bottom: 0;
-		height: calc(100% - 250px );
-		opacity: 0.8
-    }
-	
-	
-	header {
-		text-align: center;
-	}
-		
-	section.sidebar {
-		position: absolute;
-		top: 300px;
-		left: 50%;
-		padding: 20px;
-		padding-top: 0;
-		display: none;
-	}
-		
-	#expected-result {
-		font-size: 24px;
-		margin-top: 0;
-	}
-	
-	.lesson-choice {
-		background: #FFFFFF;
-		border-radius: 10px;
-		color: #26526f;		
-		width: 20%;
-		padding: 10px;
-		display: inline-block;
-		margin-right: 10px;
-		margin-bottom: 10px;
-		transition: background 0.2s;
-	}
-		
-	.lesson-choice p {
-		text-align: left;
-	}
-		
-	.lesson-choice:focus {
-		border: 5px solid #21af42;
-		background: #3979a0;
-		color: #FFFFFF;
-		padding: 5px;
-		outline: none;
-	}
-	
-	.lesson-choice:active {
-		background: #21af42;
-	}
-	
-	.lesson-choice.selected {
-		background: #21af42;
-	}
-	
-	.template-elements {
-		display: none;
-	}
-	
-	#timer {
-		margin-top: 0;
-		margin-bottom: 0;		
-		font-size: 48px;
-		font-family: Arial;
-	}
-	
-	.lesson-view {
-		background: #26526f;
-		top: 100%;
-		position: absolute;
-		width: 100%;
-		height: 100%;
-	}
-	
-	.lesson-view.opened {
-		top: 0;
-		transition: top 0.5s ease 0s;		
-	}
-	
-	.lesson-view header {
-		text-align: left;
-		padding: 20px 50px;
-	}
-	
-	.lesson-view header .left-area {
-		display: inline-block;
-		width: calc( 75% - 50px );
-	}
-	
-	.lesson-view header .right-area {
-		display: inline-block;
-		width: 25%;
-	}
-	
-	.lesson-view header button {
-		background: #FFFFFF;
-		color: #000000;
-		font-size: 30px;
-		font-weight: bold;
-		padding: 10px;
-		border-radius: 10px;
-		border: 0px;
-	}
-	
-	.lesson-view header button:focus {
-		border: 5px solid #21af42;
-		background: #26526f;
-		color: #FFFFFF;
-		border-radius: 15px;
-		padding: 5px;
-		outline: 0;
-	}
-	
-	.lesson-view header button:active {
-		border: 5px solid #21af42;
-		background: #21af42;
-		outline: 0;
-	}
-	
-	#overlay {
-		display: none;
-	}
-
-	#overlay.opened {
-		display: block;
-	}
-
-</style>
+<link rel="stylesheet" href="styles.css" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ace.min.js" type="text/javascript" charset="utf-8"></script>
 </head>
 <body>
@@ -177,91 +16,15 @@
 <header>
 	<h1>Talon practice</h1>
 	<p>This is a webpage designed to help practice your Talon Voice usage. You can use it with a mouse or using Talon commands.</p>
-	<p>If you want to choose a lesson, say "tab". From here, you can say "go right" to move to the next lesson, and "go left" to go to the previous one. Saying "enter" or "slap" will start the lesson.</p>	
+	<p>If you want to choose a lesson, say <span style="color: yellow">tab</span>. From here, you can say <span style="color: yellow">go right</span> to move to the next lesson, and <span style="color: yellow">go left</span> to go to the previous one.</p>
+	<p> Saying <span style="color: yellow">enter</span> or <span style="color: yellow">slap</span> will open the lesson.</p>	
 	
 	<h2>Choose a lesson</h2>	
 </header>
 
 <div id="lesson-choices"></div>
-<div id="overlay">
-	<div class="lesson-view preview" id="current-lesson">
-		<header>
-			<div class="left-area">
-				<h2 id="lesson-title"></h2>
-				<p  id="lesson-description"></p>
-				<p>Expected result</p>
-			</div>
-			<div class="right-area">
-				<button id="show-help" tabindex="0">Show help</button>			
-				<button id="toggle-game" onclick="toggleGame()" tabindex="0">Start game</button>
-				<button id="close-lesson" onclick="setLesson(null)" tabindex="0">Close</button>			
-				<p id="timer">00:00.0</p>
-			</div>
-		</header>
-		<div id="editor"></div>
-			
-		<section class="sidebar">
-			<p id="expected-result"></p>
-			<button id="toggle-game" onclick="toggleGame()" tabindex="0">Start game</button>
-			
-			<div id="before-game">
-				<h3 id="calculated-score"></h3>
-				<br/>
-				<div id="score-explanation"></div>
-				<div id="highscore"></div>
-			</div>
-		</section>
-		
-		<div id="editor2"></div>	
-	</div>
-</div>
     
 <script>
-	var changes = 0;
-    var editor = ace.edit("editor");
-	var exampleEditor = ace.edit("editor2");
-	exampleEditor.setReadOnly(true);
-	editor.on('change', function() {
-		changes++;
-	});
-		
-	function reset() {
-		changes = 0;
-	}
-	
-	function setCommandEnabled(editor, name, enabled) {
-		var command = editor.commands.byName[name]
-		if (!command.bindKeyOriginal) 
-			command.bindKeyOriginal = command.bindKey
-		command.bindKey = enabled ? command.bindKeyOriginal : null;
-		editor.commands.addCommand(command);
-		// special case for backspace and delete which will be called from
-		// textarea if not handled by main commandb binding
-		if (!enabled) {
-			var key = command.bindKeyOriginal;
-			if (key && typeof key == "object")
-				key = key[editor.commands.platform];
-			if (/backspace|delete/i.test(key))
-				editor.commands.bindKey(key, "null")
-		}
-	}
-
-	editor.on('focus', function() {
-        setCommandEnabled(editor, "indent", true)
-        setCommandEnabled(editor, "outdent", true)
-    });
-
-	editor.commands.addCommand({
-		name: "escape",
-		bindKey: {win: "Esc", mac: "Esc"},
-		exec: function() {
-			setCommandEnabled(editor, "indent", false)
-			setCommandEnabled(editor, "outdent", false)
-		}
-	});
-	editor.focus();
-	
-	var currentLesson = null;
 	var alphabetLesson = {
 		title: "Talon Alphabet",
 		description: "Learn the Talon alphabet.",
@@ -269,7 +32,8 @@
 		expectedContent: "abcdefghijklmnopqrstuvwxyz",
 		startingScore: 2000,
 		expectedChanges: 26,
-		expectedSeconds: 60
+		expectedSeconds: 60,
+		link: 'lessons/alphabet.html'
 	};
 	
 	var specialCharacterLesson = {
@@ -279,11 +43,15 @@
 		expectedContent: "{}()[]:;,.?!<>=_-+*'\"/\$%^&|",
 		startingScore: 2000,
 		expectedChanges: 26,
-		expectedSeconds: 120
+		expectedSeconds: 120,
+		link: 'lessons/special_characters.html'
+	};
+	
+	var gotoLesson = function(lesson) {
+		window.open(lesson.link, '_blank');
 	};
 	
 	var lessons = [alphabetLesson, specialCharacterLesson];
-	
 	var lessonKeypress = function(lesson) {
 		return function(event) {
 			if (event.keyCode === 37 || event.keyCode === 39) {
@@ -298,7 +66,7 @@
 				event.target.classList.add('selected');
 				
 				window.setTimeout(function(){
-					setLesson(lesson);
+					gotoLesson(lesson);
 				}, 300);
 			}
 		};
@@ -315,203 +83,10 @@
 		lessonChoice.setAttribute('tabindex', "0");
 		lessonChoice.addEventListener('keyup', lessonKeypress(lesson));
 		lessonChoice.addEventListener('click', function() {
-			return setLesson(lesson);
+			return gotoLesson(lesson);
 		});
 	});
 
-	var formatTimer = function(distance) {
-		var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-		if ( minutes < 10 ){
-			minutes = "0" + minutes;
-		}
-		var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-		if ( seconds < 10 ){
-			seconds = "0" + seconds;
-		}
-		var milliseconds = Math.floor((distance % 1000 / 100));
-		return minutes + ":" + seconds + "." + milliseconds;
-	};
-	
-	var getLessonScoreList = function(lesson) {
-		var scoreList = [];
-		
-		if ( window.localStorage ) {		
-			var currentLeaderBoard = JSON.parse(window.localStorage.getItem("talon-practice-scoreboard"));
-			if (!currentLeaderBoard ) {
-				currentLeaderBoard = {};
-			}
-			
-			if (!currentLeaderBoard.hasOwnProperty(lesson.title)){
-				currentLeaderBoard[lesson.title] = [];
-			}
-			
-			scoreList = currentLeaderBoard[lesson.title];
-		}
-		
-		return scoreList.sort(function(a, b){
-			if ( b.score == a.score ){
-				return Math.sign(a.time - b.time);
-			} else {
-				return Math.sign(b.score - a.score);
-			}
-		});
-	}
-
-	var updateHighscores = function(lesson) {
-		var scoreList = getLessonScoreList(lesson);
-		var highScoreText = "";
-		if (scoreList.length > 0) {
-			highScoreText += "<table><thead><tr><th>Score</th><th>Time</th><th>Date</th></tr></thead><tbody>";
-			
-			scoreList.forEach(function(scoreRow){
-				highScoreText += "<tr><td>" + scoreRow.score + "</td><td>" + formatTimer(scoreRow.time) + "</td><td>On today!</td></tr>";
-			});
-			highScoreText += "</tbody>";
-		} else {
-			highScoreText += "No existing scores found for " + lesson.title;
-		}
-		document.getElementById("highscore").innerHTML = highScoreText;	
-	};
-	
-	var setLesson = function(lesson) {
-		currentLesson = lesson;
-		if ( currentLesson == null ) {
-			document.getElementById("overlay").classList.remove('opened');
-			var selectedLessons = document.getElementsByClassName('selected');
-			if (selectedLessons.length > 0) {
-				document.getElementById("current-lesson").classList.remove('opened');			
-			
-				// Prevent a lesson from being immediately opened after pressing enter
-				window.setTimeout(function(){
-					selectedLessons[0].focus();
-					selectedLessons[0].classList.remove('selected');					
-				}, 300);
-			}
-		} else {
-			document.getElementById("lesson-title").innerHTML = lesson.title;
-			document.getElementById("lesson-description").innerHTML = lesson.description;
-			exampleEditor.setValue(currentLesson.expectedContent, -1);
-			document.getElementById("overlay").classList.add('opened');
-			
-			window.requestAnimationFrame(function(){
-				document.getElementById("current-lesson").classList.add('opened');			
-			});
-			document.getElementById("show-help").focus();
-			
-			updateHighscores(currentLesson);
-		}
-	};
-	
-	var startDateTime = new Date().getTime();	
-	var timerInterval = null;
-	var gameStarted = false;
-	var toggleGame = function() {
-		gameStarted = !gameStarted;
-		if (timerInterval) {
-			clearInterval(timerInterval);
-		}
-		
-		if (gameStarted) {
-			document.getElementById("before-game").style.display = "none";
-			reset();
-			document.getElementById("toggle-game").innerHTML = "Stop game";
-			editor.setValue(currentLesson.startingContent);
-			editor.focus();
-			
-			startDateTime = new Date().getTime();			
-			timerInterval = setInterval(updateTimer, 100);
-		} else {
-			document.getElementById("before-game").style.display = "block";		
-		
-			document.getElementById("toggle-game").innerHTML = "Start game";
-			var endDateTime = new Date().getTime();
-			
-			var score = currentLesson.startingScore;
-			var levenshtein = compareStringEquality( editor.getValue(), currentLesson.expectedContent );
-			var scoreExplanation = "Starting score: " + score + "<br/>";
-			if ( levenshtein === 0 ) {
-				scoreExplanation += "<strong>Perfect match!</strong> <span style=\"color: green;\">+" + score + "</span><br/>";
-				score *= 2;
-			} else {
-				scoreExplanation += "Expected result not reached: <span style=\"color: red;\">-50</span> for each character difference (" + levenshtein + ")<br/>";			
-				score -= levenshtein * 50;
-			}
-			
-			if ( changes > currentLesson.expectedChanges ) {
-				score -= ( changes - currentLesson.expectedChanges ) * 50;
-				scoreExplanation += "You used more steps than neccesary: <span style=\"color: red;\">-50</span> for each extra step (" + ( changes - currentLesson.expectedChanges ) + ")<br/>";
-			}
-			
-			var usedSeconds = Math.floor( endDateTime - startDateTime ) / 1000;
-			if ( usedSeconds < currentLesson.expectedSeconds ) {
-				scoreExplanation += "You used less time than expected! <span style=\"color: green;\">+25</span> for each second saved (" + Math.floor( currentLesson.expectedSeconds - usedSeconds ) + ")<br/>";
-				score += Math.floor( currentLesson.expectedSeconds - usedSeconds ) * 25;
-			}
-			
-			score = Math.max( 0, score );
-			document.getElementById("calculated-score").innerHTML = score;
-			document.getElementById("score-explanation").innerHTML = scoreExplanation;
-			
-			if ( window.localStorage ){
-				var currentLeaderBoard = JSON.parse(window.localStorage.getItem("talon-practice-scoreboard"));
-				if (!currentLeaderBoard ) {
-					currentLeaderBoard = {};
-				}
-				
-				if (!currentLeaderBoard.hasOwnProperty(currentLesson.title)){
-					currentLeaderBoard[currentLesson.title] = [];
-				}
-				
-				currentLeaderBoard[currentLesson.title].push({score: score, time: usedSeconds * 1000, perfect: levenshtein == 0, runAt: endDateTime});
-				window.localStorage.setItem("talon-practice-scoreboard", JSON.stringify(currentLeaderBoard));
-			}
-			
-			updateHighscores();
-		}
-	}
-
-	var updateTimer = function() {
-		// Get today's date and time
-		var now = new Date().getTime();
-
-		// Find the distance between now and the count down date
-		var distance = now - startDateTime;
-		document.getElementById("timer").innerHTML = formatTimer(distance);
-	}
-
-	var compareStringEquality = function(a, b){
-		if(a.length == 0) return b.length;
-		if(b.length == 0) return a.length; 
-
-		var matrix = [];
-
-		// increment along the first column of each row
-		var i;
-		for(i = 0; i <= b.length; i++){
-			matrix[i] = [i];
-		}
-
-		// increment each column in the first row
-		var j;
-		for(j = 0; j <= a.length; j++){
-			matrix[0][j] = j;
-		}
-
-		// Fill in the rest of the matrix
-		for(i = 1; i <= b.length; i++){
-			for(j = 1; j <= a.length; j++){
-				if(b.charAt(i-1) == a.charAt(j-1)){
-					matrix[i][j] = matrix[i-1][j-1];
-				} else {
-					matrix[i][j] = Math.min(matrix[i-1][j-1] + 1, // substitution
-					Math.min(matrix[i][j-1] + 1, // insertion
-					matrix[i-1][j] + 1)); // deletion
-				}
-			}
-		}
-
-		return matrix[b.length][a.length];
-	};
 </script>
 </body>
 </html>

@@ -1,0 +1,214 @@
+body {
+	background: #26526f;
+	font-size: 16px;
+	font-weight: 100;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+	color: #ffffff;
+	margin: 0;
+	padding: 0;
+}
+
+#editor { 
+	position: absolute;
+	width: calc(50% - 75px );
+	top: 250px;
+	right: 0;
+	bottom: 0;
+	left: 50px;
+	height: calc(100% - 280px );
+	display: none;
+}
+
+#editor2.left {
+	right: 0px;
+	left: 50px;
+}
+
+#editor2 { 
+	position: absolute;
+	width: calc(50% - 75px );
+	top: 250px;
+	right: 50px;
+	bottom: 0;
+	height: calc(100% - 280px );
+	opacity: 0.8
+}
+
+#help-sidebar, #after-game, #during-game {
+	display: none;
+}
+
+#help-sidebar.opened {
+	display: block;
+}
+
+#after-game.opened {
+	display: block;
+}
+
+#during-game.opened {
+	display: block;
+}
+
+header {
+	text-align: center;
+}
+	
+section.sidebar {
+	position: absolute;
+	top: 250px;
+	left: 50%;
+	padding: 20px;
+	padding-top: 0;
+}
+
+a:visited {
+	color: white;
+}
+	
+#expected-result {
+	font-size: 24px;
+	margin-top: 0;
+}
+
+.lesson-choice {
+	background: #FFFFFF;
+	border-radius: 10px;
+	color: #26526f;		
+	width: 20%;
+	padding: 10px;
+	display: inline-block;
+	margin-right: 10px;
+	margin-bottom: 10px;
+	transition: background 0.2s;
+}
+	
+.lesson-choice p {
+	text-align: left;
+}
+	
+.lesson-choice:focus {
+	border: 5px solid #21af42;
+	background: #3979a0;
+	color: #FFFFFF;
+	padding: 5px;
+	outline: none;
+}
+
+.lesson-choice:active {
+	background: #21af42;
+}
+
+.lesson-choice.selected {
+	background: #21af42;
+}
+
+.template-elements {
+	display: none;
+}
+
+#timer {
+	margin-top: 0;
+	margin-bottom: 0;		
+	font-size: 48px;
+	font-family: Arial;
+}
+
+.lesson-view {
+	top: 0;	
+	background: #26526f;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+}
+
+.lesson-view header {
+	text-align: left;
+	padding: 20px 50px;
+}
+
+.lesson-view header .left-area {
+	display: inline-block;
+	width: calc( 50% - 50px );
+}
+
+.lesson-view header .right-area {
+	display: inline-block;
+    width: calc(50% - 60px);
+    margin-left: 60px;
+    vertical-align: top;
+    padding-top: 100px;	
+}
+
+.lesson-view header button {
+	background: #FFFFFF;
+	color: #000000;
+	font-size: 30px;
+	font-weight: bold;
+	padding: 10px;
+	border-radius: 10px;
+	border: 0px;
+}
+
+#timer {
+	float: right;
+	display: block;
+}
+
+.lesson-view header button:focus {
+	border: 5px solid #21af42;
+	background: #26526f;
+	color: #FFFFFF;
+	border-radius: 15px;
+	padding: 5px;
+	outline: 0;
+}
+
+.lesson-view header button:active {
+	border: 5px solid #21af42;
+	background: #21af42;
+	outline: 0;
+}
+
+#after-game {
+    width: calc(50vw - 50px);
+}
+
+#calculated-score {
+	margin: 0;
+}
+
+#calculated-score .primary {
+	background-color: green;
+	border-radius: 5px;
+}
+
+#highscore table {
+	width: 100%;
+	border-spacing: 0;
+}
+
+#highscore th {
+    text-align: left;
+    border: solid 2px lightgrey;
+    border-right: solid 0px lightgrey;
+	border-collapse: collapse;
+	padding-left: 10px;
+	font-size: 16px;	
+}
+
+#highscore th:last-child {
+    border-right: solid 2px lightgrey;
+}
+
+#highscore table tbody td {
+	padding-left: 10px;	
+	border-bottom: 1px solid lightgrey;
+	border-collapse: collapse;
+	font-size: 16px;
+    border-left: solid 2px lightgrey;	
+}
+
+#highscore table tbody td:last-child {
+    border-right: solid 1px white;	
+}

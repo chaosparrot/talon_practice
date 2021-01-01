@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Talon Practice</title>
+<link rel="stylesheet" href="../styles.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ace.min.js" type="text/javascript" charset="utf-8"></script>
+</head>
+<body>
+<div class="template-elements"></div>
+
+<div id="overlay">
+	<div class="lesson-view" id="current-lesson">
+		<header>
+			<div class="left-area">
+				<h1>Talon alphabet</h1>
+				<p>This lesson is all about learning the Talon alphabet. On the right is a brief overview of all the different letters and their Talon counterparts.
+				You can start the lesson by using <span style="color: yellow">go right</span> and then <span style="color: yellow">enter</span> or <span style="color: yellow">snap</span>. You can stop the time by saying <span style="color: yellow">Escape enter</span>.
+				Don't worry if you get stuff wrong like your cursor bouncing around or wrong characters being placed. You will learn correcting these mistakes in later lessons.<br/>
+				If you wish to leave this lesson, you can press the 'Close' button, or simply say <span style="color: yellow">Control Whale</span> to press Ctrl+W to close this tab.
+				</p>
+				<p>Expected result</p>
+			</div>
+			<div class="right-area">
+				<button id="toggle-help" tabindex="0" onclick="toggleHelp()" onkeyup="dynamicKeypress(event)">Show highscores</button>			
+				<button id="toggle-game" onclick="toggleGame()" tabindex="0" onkeyup="dynamicKeypress(event)">Start game</button>
+				<button id="close-lesson" onclick="window.close()" tabindex="0" onkeyup="dynamicKeypress(event)">Close</button>
+				<p id="timer">00:00.0</p>
+			</div>
+		</header>
+		<div id="editor"></div>
+			
+		<section class="sidebar">
+			<div id="help-sidebar" class="opened">
+				<p>
+					A = Air
+					B = Bat
+					C = Cap
+					D = Drum
+					E = Each
+					F = Fine
+					G = Gust
+					H = Harp
+					I = Sit
+					J = Jury
+					K = Crunch
+					L = Look
+					M = Made
+					N = Near
+					<br/>
+					O = Odd
+					P = Pit
+					Q = Quench
+					R = Red
+					S = Sun
+					T = Trap
+					U = Urge
+					V = Vest
+					W = Whale
+					X = Plex
+					Y = Yank
+					Z = Zip
+				</p>
+				<p>This is based on the knausj_talon repository. As with almost anything else in Talon, you can change the words for specific letters around if they do not recognize well.<br/>
+					They can be changed here: <a href="https://github.com/knausj85/knausj_talon/blob/master/code/keys.py#L6" target="_blank">code/keys.py</a>.
+			</div>
+			<div id="after-game">
+				<h3 id="calculated-score"></h3>
+				<div id="score-explanation"></div>
+				<div id="highscore"></div>
+			</div>
+		</section>
+		<div id="editor2" class="left"></div>
+	</div>
+</div>
+<script src="../core.js" type="text/javascript" charset="utf-8"></script>
+<script>
+	var alphabetLesson = {
+		title: "Talon Alphabet",
+		description: "Learn the Talon alphabet.",
+		startingContent: "",
+		expectedContent: "abcdefghijklmnopqrstuvwxyz",
+		startingScore: 2000,
+		expectedChanges: 26,
+		expectedSeconds: 60
+	};
+	
+	setLesson(alphabetLesson);
+</script>
+</body>
+</html>
