@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<title>Talon Practice</title>
+<head>
+<link rel="stylesheet" href="../styles.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ace.min.js" type="text/javascript" charset="utf-8"></script>
+</head>
+<body>
+<div class="template-elements"></div>
+
+<div id="overlay">
+	<div class="lesson-view" id="current-lesson">
+		<header>
+			<div class="left-area">
+				<h1>Text cursor navigation</h1>
+				<p>Placing characters in a text box is great, but you most likely want to move the cursor around before placing them. Normally you're used to moving the cursor around with the arrow keys and with the mouse.
+				In this lesson your goal is to correct the mistakes by moving the cursor around and placing the correct letters you have learned from the alphabet. 
+				<br/> If you wish to leave this lesson, you can press the 'Close' button, or simply say <span style="color: yellow">Control Whale</span> to press Ctrl+W to close this tab.
+				</p>
+				<p>Expected result</p>
+			</div>
+			<div class="right-area">
+				<button id="toggle-help" tabindex="0" onclick="toggleHelp()" onkeyup="dynamicKeypress(event)">Show highscores</button>			
+				<button id="toggle-game" onclick="toggleGame()" tabindex="0" onkeyup="dynamicKeypress(event)">Start game</button>
+				<button id="close-lesson" onclick="window.close()" tabindex="0" onkeyup="dynamicKeypress(event)">Close</button>
+				<p id="timer">00:00.0</p>
+			</div>
+		</header>
+		<div id="editor"></div>
+			
+		<section class="sidebar">
+			<div id="help-sidebar" class="opened">
+				<p>
+					If you have selected this lesson using voice commands, you've already used one or more of the commands that move the cursor around. <span style="color: yellow">go left</span> and <span style="color: yellow">go right</span> are both used to press an arrow key either to the left or the right.
+					But you also have <span style="color: yellow">go up</span> and <span style="color: yellow">go down</span> to move vertically.
+					<br/>
+					The word go has plenty of other navigation options. For example, saying <span style="color: yellow">go line start</span> and <span style="color: yellow">go line end</span> will move the cursor to the start or the end of the line. <br/>
+					Skipping to the start or end of the file is as easy as saying <span style="color: yellow">go way up</span> and <span style="color: yellow">go way down</span><br/>
+					Saying <span style="color: yellow">go word left</span> moves the cursor to the start of the current word, or moves it over to the start of the previous word, while <span style="color: yellow">go word right</span> moves the cursor to the end.<br/>					
+					<br/>
+					These navigation commands can be found here: <a href="https://github.com/knausj85/knausj_talon/blob/master/text/generic_editor.talon#L7">text/generic_editor.talon</a>
+					<br/><br/>
+					Naturally, you can keep repeating these commands until you get to your desired location, but you can also let talon repeat them for you. Adding an ordinal number behind a command repeats it. So saying <span style="color: yellow">go right seventh</span> will move the cursor right seven times.					
+					All the ordinal code can be found here: <a href="https://github.com/knausj85/knausj_talon/blob/master/code/ordinals.py">code/ordinals.py</a>
+					<br/>
+				</p>	
+			</div>
+			<div id="after-game">
+				<h3 id="calculated-score"></h3>
+				<div id="score-explanation"></div>
+				<div id="highscore"></div>
+			</div>
+		</section>
+		<div id="editor2" class="left"></div>
+	</div>
+</div>
+<script src="../core.js" type="text/javascript" charset="utf-8"></script>
+<script>
+	var textCursorNavigation = {
+		title: "Text cursor navigation",
+		description: "",
+		startingContent: `ne to thre
+fur fiv sx
+seve eiht nne
+ten twelve eleven
+thirteen fourtee ifteen
+sixteen seventen eightteen
+nieteen tent`,
+		expectedContent: `one two three
+four five six
+seven eight nine
+ten twelve eleven
+thirteen fourteen fifteen
+sixteen seventeen eightteen
+nineteen twenty`,
+		startingScore: 2000,
+		expectedChanges: 25,
+		expectedSeconds: 180,
+		link: 'lessons/cursor_navigation.html'
+	};
+	
+	setLesson(textCursorNavigation);
+</script>
+</body>
+</html>

@@ -27,7 +27,7 @@
 <script>
 	var alphabetLesson = {
 		title: "Talon Alphabet",
-		description: "Learn the Talon alphabet.",
+		description: "Learn the Talon alphabet using this simple timing excersize.",
 		startingContent: "",
 		expectedContent: "abcdefghijklmnopqrstuvwxyz",
 		startingScore: 2000,
@@ -47,6 +47,29 @@
 		link: 'lessons/special_characters.html'
 	};
 	
+	var textCursorNavigation = {
+		title: "Text cursor navigation",
+		description: "Learn to quickly move your cursor around in a text editor to place letters where you want them to go.",
+		startingContent: `ne to thre
+fur fiv sx
+seve eiht nne
+ten twelve eleven
+thirteen fourtee ifteen
+sixteen seventen eightteen
+nieteen tent`,
+		expectedContent: `one two three
+four five six
+seven eight nine
+ten twelve eleven
+thirteen fourteen fifteen
+sixteen seventeen eightteen
+nineteen twenty`,
+		startingScore: 10000,
+		expectedChanges: 20,
+		expectedSeconds: 60,
+		link: 'lessons/cursor_navigation.html'
+	};
+	
 	var fixingMistakesLesson = {
 		title: "Dictation and fixing mistakes",
 		description: "Learn to dictate sentences and words, and fix mistakes as you come accross them.",
@@ -62,7 +85,7 @@
 		window.open(lesson.link, '_blank');
 	};
 	
-	var lessons = [alphabetLesson, specialCharacterLesson, fixingMistakesLesson];
+	var lessons = [alphabetLesson, specialCharacterLesson, textCursorNavigation, fixingMistakesLesson];
 	var lessonKeypress = function(lesson) {
 		return function(event) {
 			if (event.keyCode === 37 || event.keyCode === 39) {

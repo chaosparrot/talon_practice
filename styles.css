@@ -71,11 +71,16 @@ a:visited {
 	margin-top: 0;
 }
 
+#lesson-choices {
+	padding: 10px;
+}
+
 .lesson-choice {
 	background: #FFFFFF;
 	border-radius: 10px;
-	color: #26526f;		
-	width: 20%;
+	color: #26526f;
+	vertical-align: top;
+	width: calc(25% - 30px);
 	padding: 10px;
 	display: inline-block;
 	margin-right: 10px;
@@ -85,6 +90,7 @@ a:visited {
 	
 .lesson-choice p {
 	text-align: left;
+	min-height: 40px;
 }
 	
 .lesson-choice:focus {
