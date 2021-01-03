@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<title>Talon Practice</title>
+<head>
+<link rel="stylesheet" href="../styles.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ace.min.js" type="text/javascript" charset="utf-8"></script>
+</head>
+<body>
+<div class="template-elements"></div>
+
+<div id="overlay">
+	<div class="lesson-view" id="current-lesson">
+		<header>
+			<div class="left-area">
+				<h1>Formatting your text</h1>
+				<p>As you program, you often need to place dashes and underscores, and many other characters, between words to make a variable or a function name. Currently, you can do this perfectly well using the special characters of lesson one and dictation.
+				But there is a faster way of achieving that result, and thats where formatters come in play. This lesson wants you to place a take-out order using these formatters.
+				</p>
+				<p>Expected result</p>
+			</div>
+			<div class="right-area">
+				<button id="toggle-help" tabindex="0" onclick="toggleHelp()" onkeyup="dynamicKeypress(event)">Show highscores</button>			
+				<button id="toggle-game" onclick="toggleGame()" tabindex="0" onkeyup="dynamicKeypress(event)">Start game</button>
+				<button id="close-lesson" onclick="window.close()" tabindex="0" onkeyup="dynamicKeypress(event)">Close</button>
+				<p id="timer">00:00.0</p>
+			</div>
+		</header>
+		<div id="editor"></div>
+			
+		<section class="sidebar">
+			<div id="help-sidebar" class="opened">
+				<p>
+					Formatters are a way to define how your text gets typed. For example, saying <span style="color: yellow">all caps tomato salad</span> will result in the text TOMATO SALAD. There are many different formatters, and they can all be found by saying <span style="color: yellow">format help</span>.
+					You can close this menu again by saying <span style="color: yellow">format help close</span>.
+					<br/>
+					The ones you will likely use a lot are <span style="color: yellow">sentence</span>, which will capitalize the first letter of the first word, 
+					<span style="color: yellow">snake</span>, which will make your text show up like_this, and <span style="color: yellow">camel</span> which will make your text use camelCase. <br/>
+					But you can look at the formatters in that help menu from the first paragraph in case you ever forget one.
+				</p>
+				<p>
+					If you ever choose the wrong formatter, there is a quick and easy way to reformat your text by saying <span style="color: yellow">nope that was kebab</span>, this will turn your previously formatted text into the formatter, in this case your text will show up like-this. <br/>
+					You can replace the word kebab with any other formatter like <span style="color: yellow">all caps</span> that you can find in the help menu.
+				</p>
+				<p>
+					All the formatting code can be found here: <a href="https://github.com/knausj85/knausj_talon/blob/master/code/formatters.py#L153">code/formatters.py</a>.
+				</p>
+			</div>
+			<div id="after-game">
+				<h3 id="calculated-score"></h3>
+				<div id="score-explanation"></div>
+				<div id="highscore"></div>
+			</div>
+		</section>
+		<div id="editor2" class="left"></div>
+	</div>
+</div>
+<script src="../core.js" type="text/javascript" charset="utf-8"></script>
+<script>
+	var formattingLesson = {
+		title: "Formatting_your_text",
+		description: "Make your dictation show up like_this, or like-this, or if you get really excited, LIKE THIS",
+		startingContent: ``,
+		expectedContent: `I would like to place an order
+
+I WANT PIZZA
+without anchovies
+but-with-fries-instead
+marinated_in_tomato_sauce
+cherries.on.top
+cheeseinsidethecherries
+/the/pizza/in/squares
+Thank You Very Much
+seeYouSoon`,
+		startingScore: 2000,
+		expectedChanges: 200,
+		expectedSeconds: 240,
+		link: 'lessons/formatting.html'
+	};
+	
+	setLesson(formattingLesson);
+</script>
+</body>
+</html>
