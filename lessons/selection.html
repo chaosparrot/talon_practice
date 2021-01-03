@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<title>Talon Practice</title>
+<head>
+<link rel="stylesheet" href="../styles.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ace.min.js" type="text/javascript" charset="utf-8"></script>
+</head>
+<body>
+<div class="template-elements"></div>
+
+<div id="overlay">
+	<div class="lesson-view" id="current-lesson">
+		<header>
+			<div class="left-area">
+				<h1>Copying, pasting and selection</h1>
+				<p>So now you can fix your mistakes, dictate words and place letters. But more often than not, you´re not really retyping everything if it needs to be placed somewhere else.
+				All you do is select it, and place it somewhere else to save yourself the hassle. This lesson will show you a mangled chorus of a song text that you need to rearrange into the proper order.
+				The link to this song can be found in the help page of this lesson.
+				</p>
+				<p>Expected result</p>
+			</div>
+			<div class="right-area">
+				<button id="toggle-help" tabindex="0" onclick="toggleHelp()" onkeyup="dynamicKeypress(event)">Show highscores</button>			
+				<button id="toggle-game" onclick="toggleGame()" tabindex="0" onkeyup="dynamicKeypress(event)">Start game</button>
+				<button id="close-lesson" onclick="window.close()" tabindex="0" onkeyup="dynamicKeypress(event)">Close</button>
+				<p id="timer">00:00.0</p>
+			</div>
+		</header>
+		<div id="editor"></div>
+			
+		<section class="sidebar">
+			<div id="help-sidebar" class="opened">
+				<p>
+					Step one of copying and pasting is the selection. Talon offers a whole range of different ways of selecting characters, lines and words.
+					Like moving your arrow keys around using the phrases starting with go, and deleting things using the word clear, we can start a selection using the word select. <br/>
+					<span style="color: yellow">select all</span> for example will select everything in a text box. There's a ton of variations to this, like <span style="color: yellow">select line</span> to select your current line,
+					and <span style="color: yellow">select word</span> to select your current word. <br/> If you remember the previous lesson, where we looked at clearing, we can also add a direction, like <span style="color: yellow">select word left</span> to select the word to the left of the cursor.
+					Or even <span style="color: yellow">select up</span> to move your cursor up while selecting things. <br/>
+					If you need more precise controls, like selecting a special character, you can use <span style="color: yellow">select right</span> and <span style="color: yellow">select left</span> to select single characters. You keep saying select phrases until you are satisfied with your current selection.
+					You can find all these commands here: <a href="https://github.com/knausj85/knausj_talon/blob/master/text/generic_editor.talon#L51">text/generic_editor.talon</a>.
+				</p>
+				<p>
+					Step two and three, the copying or cutting, and pasting of your selection, is are pretty self explanatory. The only commands you need to remember are <span style="color: yellow">copy that</span>, <span style="color: yellow">cut that</span> and <span style="color: yellow">paste that</span>.
+					These commands can be found here: <a href="https://github.com/knausj85/knausj_talon/blob/master/misc/standard.talon#L17">misc/standard.talon</a>
+				</p>
+				<p>
+					Once you are comfortable with these controls, you can start getting fancy with combining step one and two. For example, <span style="color: yellow">copy word left</span> will select the word to the left, and then copy it straight away.
+				</p>
+				<p>
+					The song you are rearranging is <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">this song<a/>. All rights are reserved to the artist, and the song text here is merely meant as an exercise.
+				</p>
+			</div>
+			<div id="after-game">
+				<h3 id="calculated-score"></h3>
+				<div id="score-explanation"></div>
+				<div id="highscore"></div>
+			</div>
+		</section>
+		<div id="editor2" class="left"></div>
+	</div>
+</div>
+<script src="../core.js" type="text/javascript" charset="utf-8"></script>
+<script>
+	var copyPasteLesson = {
+		title: "Copying, pasting and selection",
+		description: "Practice selecting things and moving them around the text box.",
+		startingContent: `Never gonna tell a lie and hurt you
+Never give you up gonna
+Never gonna let you down
+ run around and desert you
+ make you cry
+ say goodbye
+`,
+		expectedContent: `Never gonna give you up
+Never gonna let you down
+Never gonna run around and desert you
+Never gonna make you cry
+Never gonna say goodbye
+Never gonna tell a lie and hurt you`,
+		startingScore: 2000,
+		expectedChanges: 80,
+		expectedSeconds: 180,
+		link: 'lessons/selection.html'
+	};
+	
+	setLesson(copyPasteLesson);
+</script>
+</body>
+</html>

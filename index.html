@@ -81,11 +81,22 @@ nineteen twenty`,
 		link: 'lessons/fixing_mistakes.html'
 	};
 	
+	var copyPasteLesson = {
+		title: "Copying, pasting and selection",
+		description: "Practice selecting things and moving them around the text box.",
+		startingContent: "",
+		expectedContent: "he threw three free throws",
+		startingScore: 2000,
+		expectedChanges: 26,
+		expectedSeconds: 120,
+		link: 'lessons/selection.html'
+	};
+	
 	var gotoLesson = function(lesson) {
 		window.open(lesson.link, '_blank');
 	};
 	
-	var lessons = [alphabetLesson, specialCharacterLesson, textCursorNavigation, fixingMistakesLesson];
+	var lessons = [alphabetLesson, specialCharacterLesson, textCursorNavigation, fixingMistakesLesson, copyPasteLesson];
 	var lessonKeypress = function(lesson) {
 		return function(event) {
 			if (event.keyCode === 37 || event.keyCode === 39) {
