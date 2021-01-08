@@ -34,11 +34,19 @@ body {
 	opacity: 0.8
 }
 
-#help-sidebar, #after-game, #during-game {
+#editor2.invisible { 
 	display: none;
 }
 
-#help-sidebar.opened {
+#editor2.bottom { 
+	top: 100vh;
+}
+
+#help-sidebar, #help-sidebar-2, #after-game, #during-game {
+	display: none;
+}
+
+#help-sidebar.opened, #help-sidebar-2.opened {
 	display: block;
 }
 

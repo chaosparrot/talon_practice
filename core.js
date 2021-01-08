@@ -5,6 +5,9 @@ exampleEditor.setReadOnly(true);
 editor.on('change', function() {
 	changes++;
 });
+
+var params = new URLSearchParams(window.location.search)
+var competitiveMode = params.get("scores") === "true";
 	
 function reset() {
 	changes = 0;
@@ -142,47 +145,49 @@ var toggleGame = function() {
 		document.getElementById("toggle-game").innerHTML = "Start game";
 		var endDateTime = new Date().getTime();
 		
-		var score = currentLesson.startingScore;
-		var levenshtein = compareStringEquality( editor.getValue(), currentLesson.expectedContent );
-		var scoreExplanation = "Starting score: " + score + "<br/>";
-		if ( levenshtein === 0 ) {
-			scoreExplanation += "<strong>Perfect match!</strong> <span style=\"color: green;\">+" + score + "</span><br/>";
-			score *= 2;
-		} else {
-			scoreExplanation += "Expected result not reached: <span style=\"color: red;\">-50</span> for each character difference (" + levenshtein + ")<br/>";			
-			score -= levenshtein * 50;
-		}
-		
-		if ( changes > currentLesson.expectedChanges ) {
-			score -= ( changes - currentLesson.expectedChanges ) * 50;
-			scoreExplanation += "You used more steps than neccesary: <span style=\"color: red;\">-50</span> for each extra step (" + ( changes - currentLesson.expectedChanges ) + ")<br/>";
-		}
-		
-		var usedSeconds = Math.floor( endDateTime - startDateTime ) / 1000;
-		if ( usedSeconds < currentLesson.expectedSeconds ) {
-			scoreExplanation += "You used less time than expected! <span style=\"color: green;\">+25</span> for each second saved (" + Math.floor( currentLesson.expectedSeconds - usedSeconds ) + ")<br/>";
-			score += Math.floor( currentLesson.expectedSeconds - usedSeconds ) * 25;
-		}
-		
-		score = Math.max( 0, score );
-		document.getElementById("calculated-score").innerHTML = 'Your score: <span class="primary">' + score + "</span>";
-		document.getElementById("score-explanation").innerHTML = scoreExplanation;
-		
-		if ( window.localStorage ){
-			var currentLeaderBoard = JSON.parse(window.localStorage.getItem("talon-practice-scoreboard"));
-			if (!currentLeaderBoard ) {
-				currentLeaderBoard = {};
+		if ( competitiveMode ) {
+			var score = currentLesson.startingScore;
+			var levenshtein = compareStringEquality( editor.getValue(), currentLesson.expectedContent );
+			var scoreExplanation = "Starting score: " + score + "<br/>";
+			if ( levenshtein === 0 ) {
+				scoreExplanation += "<strong>Perfect match!</strong> <span style=\"color: green;\">+" + score + "</span><br/>";
+				score *= 2;
+			} else {
+				scoreExplanation += "Expected result not reached: <span style=\"color: red;\">-50</span> for each character difference (" + levenshtein + ")<br/>";			
+				score -= levenshtein * 50;
 			}
 			
-			if (!currentLeaderBoard.hasOwnProperty(currentLesson.title)){
-				currentLeaderBoard[currentLesson.title] = [];
+			if ( changes > currentLesson.expectedChanges ) {
+				score -= ( changes - currentLesson.expectedChanges ) * 50;
+				scoreExplanation += "You used more steps than neccesary: <span style=\"color: red;\">-50</span> for each extra step (" + ( changes - currentLesson.expectedChanges ) + ")<br/>";
 			}
 			
-			currentLeaderBoard[currentLesson.title].push({score: score, time: usedSeconds * 1000, perfect: levenshtein == 0, runAt: endDateTime});
-			window.localStorage.setItem("talon-practice-scoreboard", JSON.stringify(currentLeaderBoard));
+			var usedSeconds = Math.floor( endDateTime - startDateTime ) / 1000;
+			if ( usedSeconds < currentLesson.expectedSeconds ) {
+				scoreExplanation += "You used less time than expected! <span style=\"color: green;\">+25</span> for each second saved (" + Math.floor( currentLesson.expectedSeconds - usedSeconds ) + ")<br/>";
+				score += Math.floor( currentLesson.expectedSeconds - usedSeconds ) * 25;
+			}
+			
+			score = Math.max( 0, score );
+			document.getElementById("calculated-score").innerHTML = 'Your score: <span class="primary">' + score + "</span>";
+			document.getElementById("score-explanation").innerHTML = scoreExplanation;
+			
+			if ( window.localStorage ){
+				var currentLeaderBoard = JSON.parse(window.localStorage.getItem("talon-practice-scoreboard"));
+				if (!currentLeaderBoard ) {
+					currentLeaderBoard = {};
+				}
+				
+				if (!currentLeaderBoard.hasOwnProperty(currentLesson.title)){
+					currentLeaderBoard[currentLesson.title] = [];
+				}
+				
+				currentLeaderBoard[currentLesson.title].push({score: score, time: usedSeconds * 1000, perfect: levenshtein == 0, runAt: endDateTime});
+				window.localStorage.setItem("talon-practice-scoreboard", JSON.stringify(currentLeaderBoard));
+			}
+			
+			updateHighscores(currentLesson);		
 		}
-		
-		updateHighscores(currentLesson);
 	}
 }
 
