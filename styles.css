@@ -8,6 +8,10 @@ body {
 	padding: 0;
 }
 
+.modes {
+	text-align: center;
+}
+
 #editor { 
 	position: absolute;
 	width: calc(50% - 75px );

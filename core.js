@@ -7,7 +7,11 @@ editor.on('change', function() {
 });
 
 var params = new URLSearchParams(window.location.search)
-var competitiveMode = params.get("scores") === "true";
+var competitiveMode = window.localStorage && window.localStorage.getItem("talon-practice-challengemode") == "true";
+if (!competitiveMode) {
+	document.getElementById("toggle-help").innerHTML = "Show help";
+	document.getElementById("timer").style.display = 'none';	
+}
 	
 function reset() {
 	changes = 0;
@@ -63,7 +67,7 @@ var formatTimer = function(distance) {
 var getLessonScoreList = function(lesson) {
 	var scoreList = [];
 	
-	if ( window.localStorage ) {		
+	if ( window.localStorage ) {
 		var currentLeaderBoard = JSON.parse(window.localStorage.getItem("talon-practice-scoreboard"));
 		if (!currentLeaderBoard ) {
 			currentLeaderBoard = {};
@@ -187,6 +191,9 @@ var toggleGame = function() {
 			}
 			
 			updateHighscores(currentLesson);		
+		} else {
+			document.getElementById("help-sidebar").classList.add('opened');
+			document.getElementById("after-game").classList.remove('opened');			
 		}
 	}
 }
@@ -195,14 +202,16 @@ var helpShown = true;
 var toggleHelp = function() {
 	helpShown = !helpShown;
 	
-	if (helpShown) {
-		document.getElementById("toggle-help").innerHTML = 'Show highscores';
-		document.getElementById("help-sidebar").classList.add('opened');
-		document.getElementById("after-game").classList.remove('opened');
-	} else {
-		document.getElementById("toggle-help").innerHTML = 'Show help';
-		document.getElementById("help-sidebar").classList.remove('opened');
-		document.getElementById("after-game").classList.add('opened');		
+	if (competitiveMode) {
+		if (helpShown) {
+			document.getElementById("toggle-help").innerHTML = 'Show highscores';
+			document.getElementById("help-sidebar").classList.add('opened');
+			document.getElementById("after-game").classList.remove('opened');
+		} else {
+			document.getElementById("toggle-help").innerHTML = 'Show help';
+			document.getElementById("help-sidebar").classList.remove('opened');
+			document.getElementById("after-game").classList.add('opened');		
+		}
 	}
 }
 

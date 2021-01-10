@@ -88,7 +88,7 @@ HintIfYouNeedToDragMoreTextJustUseDragAndDragClose
 -----END PUBLIC KEY-----`,
 		startingScore: 2000,
 		expectedChanges: 200,
-		expectedSeconds: 300,
+		expectedSeconds: 180,
 		link: 'lessons/mouse.html'
 	};
 	
@@ -141,7 +141,13 @@ HintIfYouNeedToDragMoreTextJustUseDragAndDragClose
 					scoreExplanation += "Expected result not reached: <span style=\"color: red;\">-50</span> for each character difference (" + levenshtein + ")<br/>";			
 					score -= levenshtein * 50;
 				}
-								
+				
+				var usedSeconds = Math.floor( endDateTime - startDateTime ) / 1000;
+				if ( usedSeconds < currentLesson.expectedSeconds ) {
+					scoreExplanation += "You used less time than expected! <span style=\"color: green;\">+25</span> for each second saved (" + Math.floor( currentLesson.expectedSeconds - usedSeconds ) + ")<br/>";
+					score += Math.floor( currentLesson.expectedSeconds - usedSeconds ) * 25;
+				}
+
 				score = Math.max( 0, score );
 				document.getElementById("calculated-score").innerHTML = 'Your score: <span class="primary">' + score + "</span>";
 				document.getElementById("score-explanation").innerHTML = scoreExplanation;
@@ -161,6 +167,9 @@ HintIfYouNeedToDragMoreTextJustUseDragAndDragClose
 				}
 				
 				updateHighscores(currentLesson);		
+			} else {
+				document.getElementById("help-sidebar").classList.add('opened');
+				document.getElementById("after-game").classList.remove('opened');			
 			}
 		}
 	}
