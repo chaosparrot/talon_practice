@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<title>Talon Practice</title>
+<head>
+<link rel="stylesheet" href="../styles.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ace.min.js" type="text/javascript" charset="utf-8"></script>
+<style>
+	#current-lesson {
+		display: none;
+	}
+	
+	#secret {
+		display: none;
+		text-align: center;
+		margin: 100px;
+	}
+</style>
+</head>
+<body>
+<div class="template-elements"></div>
+
+<div id="overlay">
+	<div class="lesson-view" id="current-lesson">
+		<header>
+			<div class="left-area">
+				<h1>Browsing the web</h1>
+				<p>
+					With all the tricks you have learned with dictating text, and moving your cursor around, you can already do quite a lot!
+					It's high time we start using the browser to its full potential, just like you would with your keyboard and mouse.
+					This lesson is a maze into web land, to find what we are looking for, and to go back again.					
+					Note - this exersize might be a bit buggy with a lot of tabs, so if you get stuck just reopen the lesson again.
+				</p>
+				<p>Expected result</p>
+			</div>
+			<div class="right-area">
+				<button id="toggle-help" tabindex="0" onclick="toggleHelp()" onkeyup="dynamicKeypress(event)">Show highscores</button>			
+				<button id="toggle-game" onclick="toggleGame()" tabindex="0" onkeyup="dynamicKeypress(event)">Start game</button>
+				<button id="close-lesson" onclick="window.close()" tabindex="0" onkeyup="dynamicKeypress(event)">Close</button>
+				<p id="timer">00:00.0</p>
+			</div>
+		</header>
+		<div id="editor"></div>
+			
+		<section class="sidebar">
+			<div id="help-sidebar" class="opened">
+				<p>
+					There are a few things you need to know about web browsing to get a proper hands-free experience. You need to be able to go to the address bar to type in text, which you can do using the <span style="color: yellow">go address</span> command.
+					Using your back and forward button can be done using <span style="color: yellow">go backward</span> and <span style="color: yellow">go forward</span>. And if you ever need to refresh, you can say <span style="color: yellow">reload</span> or <span style="color: yellow">refresh</span>.
+					If you ever need to look something up in a private browser window, you can say <span style="color: yellow">go private</span> to open them. Just make sure nobody is around to hear you.<br/>
+					All of these commands can be found over here <a href="https://github.com/knausj85/knausj_talon/blob/master/apps/generic_browser.talon">apps/generic_browser.talon</a>. 
+				</p>
+				<p>
+					But equally important is your tab management. Switching back and forth between tabs is a nice feature to have not only for your browser, but for your code editor as well! 
+					There are tons of tab commands, like  <span style="color: yellow">tab close</span> to close the current tab, and  <span style="color: yellow">tab new</span> to open a new one.
+					 <span style="color: yellow">tab next</span> and  <span style="color: yellow">tab previous</span> are used to move to the next and the previous tabs. You can even say <span style="color: yellow">go tab four</span> to go to the fourth tab directly!
+				</p>
+				<p>
+					All these tab commands are implemented in multiple different apps, and can be found here: <a href="https://github.com/knausj85/knausj_talon/blob/master/misc/tabs.talon">misc/tabs</a>.
+				</p>
+				<p>
+					The final ones I like to use are media buttons, like muting and changing the volume when I am watching a video or listening to music.
+					Saying <span style="color: yellow">mute</span> will toggle between muting and unmuting your volume, <span style="color: yellow">volume up</span> and <span style="color: yellow">volume down</span> will change the volume accordingly, and
+					<span style="color: yellow">pause</span> and <span style="color: yellow">play</span> will stop and resume the media you are watching.
+				</p>
+				<p>
+					You can find the media commands here: <a href="https://github.com/knausj85/knausj_talon/blob/master/misc/media.talon">misc/media.talon</a>.
+				</p>
+			</div>
+			<div id="help-sidebar-2">
+				<p id="task-step-one" style="display: none;">
+					Your task is to find the secret code that will let you end the lesson. To find it, open this lesson in a new tab, but do not close this one.
+				</p>
+				<p id="task-step-two" style="display: none;">
+					Your next step is to go to your other tab and go back three times. This is where your next instruction will be shown. 
+				</p>
+			</div>
+			<div id="after-game">
+				<h3 id="calculated-score"></h3>
+				<div id="score-explanation"></div>
+				<div id="highscore"></div>
+			</div>
+		</section>
+		<div id="editor2" class="left"></div>
+	</div>
+	<div id="secret">
+		<div id="step_one">
+			<p>
+				You have unlocked a new step!
+			</p>
+			<p>
+				Go back to your previous tab without closing this one to read your next instructions in the sidebar.
+			</p>
+		</div>
+		<div id="step_two">
+			<p>Refresh this page about five times to unlock the secret code.</p>
+		</div>		
+		<div id="step_three">
+			<p id="secret_code"></p>
+		</div>
+	</div>
+</div>
+<script src="../core.js" type="text/javascript" charset="utf-8"></script>
+<script>
+	var browserLesson = {
+		title: "Browsing the web",
+		description: "Get comfy with the tool you are probably using right now, to look for stuff on the web and browse around like you normally do.",
+		startingContent: ``,
+		expectedContent: ``,
+		startingScore: 2000,
+		expectedChanges: 200,
+		expectedSeconds: 180,
+		link: 'lessons/browser.html'
+	};
+	
+	setLesson(browserLesson);
+	
+	var storage = window.localStorage;
+	window.addEventListener("load", function(e) {
+		if( storage.getItem("talon_game_started") === "started" ) {
+			var openTabs = storage.getItem("talon_tabs_open");
+			if (!openTabs) {
+				openTabs = 0;
+			}
+			openTabs++;
+			
+			storage.setItem("talon_tabs_open", openTabs);
+			if (openTabs > 1) {
+				document.getElementById("current-lesson").style.display = 'none';
+				document.getElementById("secret").style.display = 'block';
+				document.getElementById("step_two").style.display = 'none';
+				
+				if (window.location.href.indexOf("page=1") == -1) {
+					history.pushState({page: 1}, "Talon practice", "?page=1");
+					history.pushState({page: 2}, "Talon practice", "?page=2");
+					history.pushState({page: 3}, "Talon practice", "?page=3");
+				} else {
+					var refreshCount = storage.getItem("talon_refresh_count");
+					if (!refreshCount) {
+						refreshCount = 0;
+					}
+					refreshCount++;
+					storage.setItem("talon_refresh_count", refreshCount);
+				
+					document.getElementById("step_one").style.display = 'none';
+					document.getElementById("step_two").style.display = 'none';
+					document.getElementById("step_three").style.display = 'none';					
+					if (storage.getItem("talon_refresh_count") >= 5){
+						document.getElementById("step_three").style.display = 'block';
+						document.getElementById("secret_code").innerHTML = "You have unlocked the secret code! Copy this code and put it in the textarea to finish the exersize: " + storage.getItem("talon_secret_code");
+					} else {
+						document.getElementById("step_two").style.display = 'block';					
+					}
+				}
+			}
+		}
+    });
+	
+    window.addEventListener("unload", function(e) {
+        e.preventDefault();
+        var openTabs = storage.getItem("talon_tabs_open");
+        if (openTabs) {
+            openTabs--;
+			openTabs = Math.max(0, openTabs);
+            storage.setItem("talon_tabs_open", openTabs);
+			if (openTabs === 0) {
+				storage.setItem("talon_game_started", "idle");
+			}
+        }
+        e.returnValue = '';
+    });
+	
+	if ( !storage.getItem("talon_game_started") || storage.getItem("talon_game_started") === "idle" ) {
+		document.getElementById("current-lesson").style.display = 'block';
+	}
+	
+	var toggleGame = function() {
+		gameStarted = !gameStarted;
+		storage.setItem("talon_game_started", gameStarted ? "started" : "idle");
+		if (timerInterval) {
+			clearInterval(timerInterval);
+		}
+		
+		if (gameStarted) {
+			var secretCode = window.btoa(Math.random() * 12345678);
+		
+			storage.setItem("talon_secret_code", secretCode );
+			storage.setItem("talon_tabs_open", 1);
+			storage.setItem("talon_refresh_count", 0);			
+			document.getElementById("help-sidebar").classList.remove('opened');
+			document.getElementById("help-sidebar-2").classList.add('opened');
+			document.getElementById("editor2").classList.remove('left');
+			document.getElementById("editor").style.display = 'block';
+			document.getElementById("editor2").classList.add('invisible');
+			document.getElementById("editor2").classList.add('bottom');
+			document.getElementById("close-lesson").style.display = 'none';
+			document.getElementById("after-game").classList.remove('opened');
+			document.getElementById("task-step-one").style.display = 'block';
+			document.getElementById("task-step-two").style.display = 'none';			
+			
+			browserLesson.expectedContent = secretCode;
+			setLesson(browserLesson);
+			
+			reset();
+			
+			document.getElementById("toggle-game").innerHTML = "Stop game";
+			editor.setValue(currentLesson.startingContent);
+			editor.focus();
+			
+			startDateTime = new Date().getTime();			
+			timerInterval = setInterval(updateTimer, 100);
+		} else {
+			storage.setItem("talon_tabs_open", 0);		
+			document.getElementById("editor").style.display = 'none';		
+			document.getElementById("close-lesson").style.display = 'inline-block';			
+			document.getElementById("help-sidebar").classList.remove('opened');
+			document.getElementById("help-sidebar-2").classList.remove('opened');
+			document.getElementById("editor2").classList.add('left');
+			document.getElementById("editor2").classList.remove('invisible');
+			document.getElementById("editor2").classList.remove('bottom');
+			document.getElementById("after-game").classList.add('opened');
+			document.getElementById("toggle-help").innerHTML = 'Show help';
+			document.getElementById("toggle-game").innerHTML = "Start game";
+			var endDateTime = new Date().getTime();
+			
+			if ( competitiveMode ) {
+				var score = currentLesson.startingScore;
+				var levenshtein = compareStringEquality( editor.getValue(), currentLesson.expectedContent );
+				var scoreExplanation = "Starting score: " + score + "<br/>";
+				if ( levenshtein === 0 ) {
+					scoreExplanation += "<strong>Perfect match!</strong> <span style=\"color: green;\">+" + score + "</span><br/>";
+					score *= 2;
+				} else {
+					scoreExplanation += "Expected result not reached: <span style=\"color: red;\">-50</span> for each character difference (" + levenshtein + ")<br/>";			
+					score -= levenshtein * 50;
+				}
+				
+				var usedSeconds = Math.floor( endDateTime - startDateTime ) / 1000;
+				if ( usedSeconds < currentLesson.expectedSeconds ) {
+					scoreExplanation += "You used less time than expected! <span style=\"color: green;\">+25</span> for each second saved (" + Math.floor( currentLesson.expectedSeconds - usedSeconds ) + ")<br/>";
+					score += Math.floor( currentLesson.expectedSeconds - usedSeconds ) * 25;
+				}
+
+				score = Math.max( 0, score );
+				document.getElementById("calculated-score").innerHTML = 'Your score: <span class="primary">' + score + "</span>";
+				document.getElementById("score-explanation").innerHTML = scoreExplanation;
+				
+				if ( window.localStorage ){
+					var currentLeaderBoard = JSON.parse(window.localStorage.getItem("talon-practice-scoreboard"));
+					if (!currentLeaderBoard ) {
+						currentLeaderBoard = {};
+					}
+					
+					if (!currentLeaderBoard.hasOwnProperty(currentLesson.title)){
+						currentLeaderBoard[currentLesson.title] = [];
+					}
+					
+					currentLeaderBoard[currentLesson.title].push({score: score, time: usedSeconds * 1000, perfect: levenshtein == 0, runAt: endDateTime});
+					window.localStorage.setItem("talon-practice-scoreboard", JSON.stringify(currentLeaderBoard));
+				}
+				
+				updateHighscores(currentLesson);		
+			} else {
+				document.getElementById("help-sidebar").classList.add('opened');
+				document.getElementById("after-game").classList.remove('opened');			
+			}
+			
+			document.getElementById("task-step-one").style.display = 'none';
+			document.getElementById("task-step-two").style.display = 'none';			
+			browserLesson.expectedContent = '';
+			setLesson(browserLesson);
+		}
+	}
+	
+	window.setInterval( function() {
+		if (gameStarted && storage.getItem("talon_tabs_open") > 1) {
+			document.getElementById("task-step-two").style.display = 'block';
+			document.getElementById("task-step-one").style.display = 'none';
+		}
+		
+		if (window.location.href.indexOf("page=1") >= 0 ) {
+			document.getElementById("step_one").style.display = 'none';	
+
+			if ( storage.getItem("talon_refresh_count") < 5 ) {
+				document.getElementById("step_two").style.display = 'block';			
+			}
+		}
+	}, 500 );
+	
+	var showTextArea = function() {
+		document.getElementById('editor2').classList.remove('invisible');
+	};
+</script>
+</body>
+</html>
