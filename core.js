@@ -120,6 +120,7 @@ var startDateTime = new Date().getTime();
 var timerInterval = null;
 var gameStarted = false;
 var toggleGame = function() {
+	helpShown = false;
 	gameStarted = !gameStarted;
 	if (timerInterval) {
 		clearInterval(timerInterval);
@@ -143,6 +144,7 @@ var toggleGame = function() {
 		document.getElementById("close-lesson").style.display = 'inline-block';			
 		document.getElementById("help-sidebar").classList.remove('opened');
 		document.getElementById("editor2").classList.add('left');
+		document.getElementById("editor2").style.display = 'block';		
 		document.getElementById("after-game").classList.add('opened');
 		document.getElementById("toggle-help").innerHTML = 'Show help';
 
@@ -201,6 +203,7 @@ var toggleGame = function() {
 var helpShown = true;
 var toggleHelp = function() {
 	helpShown = !helpShown;
+	console.log( gameStarted, helpShown );
 	
 	if (competitiveMode) {
 		if (helpShown) {
@@ -211,6 +214,18 @@ var toggleHelp = function() {
 			document.getElementById("toggle-help").innerHTML = 'Show help';
 			document.getElementById("help-sidebar").classList.remove('opened');
 			document.getElementById("after-game").classList.add('opened');		
+		}
+	} else if (gameStarted) {
+		if (helpShown) {
+			document.getElementById("after-game").classList.add('opened');					
+			document.getElementById("help-sidebar").classList.add('opened');
+			document.getElementById("editor2").style.display = 'none';
+			document.getElementById("toggle-help").innerHTML = 'Show goal';
+		} else {
+			document.getElementById("help-sidebar").classList.remove('opened');
+			document.getElementById("after-game").classList.remove('opened');
+			document.getElementById("editor2").style.display = 'block';
+			document.getElementById("toggle-help").innerHTML = 'Show help';			
 		}
 	}
 }
