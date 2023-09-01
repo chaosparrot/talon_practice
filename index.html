@@ -1,110 +1,143 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<title>Talon Practice</title>
-<link rel="stylesheet" href="styles.css" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ace.min.js" type="text/javascript" charset="utf-8"></script>
-</head>
-<body>
-<div class="template-elements">
-	<div id="template-lesson-choice" class="lesson-choice">
-		<h3>{{TITLE}}</h3>
-		<p>{{DESCRIPTION}}</p>
-	</div>
-</div>
+  <head>
+    <title>Talon Practice</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ace.min.js"
+      type="text/javascript"
+      charset="utf-8"
+    ></script>
+  </head>
+  <body>
+    <div class="template-elements">
+      <div id="template-lesson-choice" class="lesson-choice">
+        <h3>{{TITLE}}</h3>
+        <p>{{DESCRIPTION}}</p>
+      </div>
+    </div>
 
-<header>
-	<h1>Talon practice</h1>
-	<p>This is a webpage designed to help practice your Talon Voice usage. You can use it with a mouse or using Talon commands. <br/> It is recommended to practice each lesson in order, as each builds on the skills you have learned in the previous lesson.
-	<br/>If you get stuck somewhere and you need to get back to a usable place, say <span class="text-emphasis">talon sleep</span> to stop the listening, resuming by saying <span class="text-emphasis">talon wake</span>
-	</p>
-	<p>When you are ready to choose a lesson, say <span class="text-emphasis">tab</span>. From here, you can say <span class="text-emphasis">go right</span> to move to the next lesson, and <span class="text-emphasis">go left</span> to go to the previous one.</p>
-	<p> Saying <span class="text-emphasis">enter</span> or <span class="text-emphasis">slap</span> will open the lesson.</p>
+    <header>
+      <h1>Talon practice</h1>
+      <p>
+        This is a webpage designed to help practice your Talon Voice usage. You
+        can use it with a mouse or using Talon commands. <br />
+        It is recommended to practice each lesson in order, as each builds on
+        the skills you have learned in the previous lesson. <br />If you get
+        stuck somewhere and you need to get back to a usable place, say
+        <span class="text-emphasis">talon sleep</span> to stop the listening,
+        resuming by saying <span class="text-emphasis">talon wake</span>
+      </p>
+      <p>
+        When you are ready to choose a lesson, say
+        <span class="text-emphasis">tab</span>. From here, you can say
+        <span class="text-emphasis">go right</span> to move to the next lesson,
+        and <span class="text-emphasis">go left</span> to go to the previous
+        one.
+      </p>
+      <p>
+        Saying <span class="text-emphasis">enter</span> or
+        <span class="text-emphasis">slap</span> will open the lesson.
+      </p>
 
-	<h2>Choose a lesson</h2>
-</header>
+      <h2>Choose a lesson</h2>
+    </header>
 
-<div id="lesson-choices"></div>
-    
-<div class="modes">
-	<p>If you wish to enable highscores and a timer so you can see how fast you are getting, you can enable challenge mode below</p>
-	<label for="challenge_mode">Challenge mode</label>
-	<input id="challenge_mode" name="challenge_mode" type="checkbox" onchange="setChallengeMode(event)" />
-</div>
-		
-<script>
-	var alphabetLesson = {
-		title: "Talon Alphabet",
-		description: "Learn the Talon alphabet using this simple timing excersize.",
-		startingContent: "",
-		expectedContent: "abcdefghijklmnopqrstuvwxyz",
-		startingScore: 2000,
-		expectedChanges: 26,
-		expectedSeconds: 60,
-		link: 'lessons/alphabet.html'
-	};
-	
-	var specialCharacterLesson = {
-		title: "Special characters",
-		description: "Get comfortable with most of the special characters used in programming.",
-		startingContent: "",
-		expectedContent: "{}()[]:;,.?!<>=_-+*'\"/\$%^&|",
-		startingScore: 2000,
-		expectedChanges: 26,
-		expectedSeconds: 120,
-		link: 'lessons/special_characters.html'
-	};
-	
-	var textCursorNavigation = {
-		title: "Text cursor navigation",
-		description: "Learn to quickly move your cursor around in a text editor to place letters where you want them to go.",
-		startingContent: `ne to thre
+    <div id="lesson-choices"></div>
+
+    <div class="modes">
+      <p>
+        If you wish to enable high scores and a timer so you can see how fast
+        you are getting, you can enable challenge mode below
+      </p>
+      <label for="challenge_mode">Challenge mode</label>
+      <input
+        id="challenge_mode"
+        name="challenge_mode"
+        type="checkbox"
+        onchange="setChallengeMode(event)"
+      />
+    </div>
+
+    <script>
+      var alphabetLesson = {
+        title: "Talon Alphabet",
+        description:
+          "Learn the Talon alphabet using this simple timing exercise.",
+        startingContent: "",
+        expectedContent: "abcdefghijklmnopqrstuvwxyz",
+        startingScore: 2000,
+        expectedChanges: 26,
+        expectedSeconds: 60,
+        link: "lessons/alphabet.html",
+      };
+
+      var specialCharacterLesson = {
+        title: "Special characters",
+        description:
+          "Get comfortable with most of the special characters used in programming.",
+        startingContent: "",
+        expectedContent: "{}()[]:;,.?!<>=_-+*'\"/\$%^&|",
+        startingScore: 2000,
+        expectedChanges: 26,
+        expectedSeconds: 120,
+        link: "lessons/special_characters.html",
+      };
+
+      var textCursorNavigation = {
+        title: "Text cursor navigation",
+        description:
+          "Learn to quickly move your cursor around in a text editor to place letters where you want them to go.",
+        startingContent: `ne to thre
 fur fiv sx
 seve eiht nne
 ten eleven welve
 thirteen fourtee ifteen
 sixteen seventen eightteen
 nieteen tent`,
-		expectedContent: `one two three
+        expectedContent: `one two three
 four five six
 seven eight nine
 ten eleven twelve
 thirteen fourteen fifteen
 sixteen seventeen eightteen
 nineteen twenty`,
-		startingScore: 10000,
-		expectedChanges: 22,
-		expectedSeconds: 60,
-		link: 'lessons/cursor_navigation.html'
-	};
-	
-	var fixingMistakesLesson = {
-		title: "Dictation and fixing mistakes",
-		description: "Learn to dictate sentences and words, and fix mistakes as you come accross them.",
-		startingContent: "",
-		expectedContent: "he threw three free throws",
-		startingScore: 2000,
-		expectedChanges: 26,
-		expectedSeconds: 120,
-		link: 'lessons/fixing_mistakes.html'
-	};
-	
-	var copyPasteLesson = {
-		title: "Copying, pasting and selection",
-		description: "Practice selecting things and moving them around the text box.",
-		startingContent: "",
-		expectedContent: "he threw three free throws",
-		startingScore: 2000,
-		expectedChanges: 26,
-		expectedSeconds: 120,
-		link: 'lessons/selection.html'
-	};
-	
-	var formattingLesson = {
-		title: "Formatting_your_text",
-		description: "Make your dictation show up like_this, or like-this, or if you get really excited, LIKE THIS",
-		startingContent: ``,
-		expectedContent: `I would like to place an order
+        startingScore: 10000,
+        expectedChanges: 22,
+        expectedSeconds: 60,
+        link: "lessons/cursor_navigation.html",
+      };
+
+      var fixingMistakesLesson = {
+        title: "Dictation and fixing mistakes",
+        description:
+          "Learn to dictate sentences and words, and fix mistakes as you come accross them.",
+        startingContent: "",
+        expectedContent: "he threw three free throws",
+        startingScore: 2000,
+        expectedChanges: 26,
+        expectedSeconds: 120,
+        link: "lessons/fixing_mistakes.html",
+      };
+
+      var copyPasteLesson = {
+        title: "Copying, pasting and selection",
+        description:
+          "Practice selecting things and moving them around the text box.",
+        startingContent: "",
+        expectedContent: "he threw three free throws",
+        startingScore: 2000,
+        expectedChanges: 26,
+        expectedSeconds: 120,
+        link: "lessons/selection.html",
+      };
+
+      var formattingLesson = {
+        title: "Formatting_your_text",
+        description:
+          "Make your dictation show up like_this, or like-this, or if you get really excited, LIKE THIS",
+        startingContent: ``,
+        expectedContent: `I would like to place an order
 
 I WANT PIZZA
 without anchovies
@@ -116,82 +149,105 @@ cheeseinsidethecherries
 Thank You Very Much
 seeYouSoon
 `,
-		startingScore: 2000,
-		expectedChanges: 200,
-		expectedSeconds: 240,
-		link: 'lessons/formatting.html'
-	};
-	
-	var mouseLesson = {
-		title: "Using your mouse",
-		description: "Learn to use your mouse with your voice, eyetracker is not needed!",
-		startingContent: ``,
-		expectedContent: `aaaasdfffdssad133z09543270`,
-		startingScore: 2000,
-		expectedChanges: 200,
-		expectedSeconds: 300,
-		link: 'lessons/mouse.html'
-	};	
-	
-	var browserLesson = {
-		title: "Browsing the web",
-		description: "Get comfy with the tool you are probably using right now, to look for stuff on the web and browse around like you normally do.",
-		startingContent: ``,
-		expectedContent: ``,
-		startingScore: 2000,
-		expectedChanges: 200,
-		expectedSeconds: 180,
-		link: 'lessons/browser.html'
-	};
-	
-	var gotoLesson = function(lesson) {
-		window.open(lesson.link, '_blank');
-	};
-	
-	var lessons = [alphabetLesson, specialCharacterLesson, textCursorNavigation, fixingMistakesLesson, copyPasteLesson, formattingLesson, mouseLesson, browserLesson];
-	var lessonKeypress = function(lesson) {
-		return function(event) {
-			if (event.keyCode === 37 || event.keyCode === 39) {
-				var lessonList = Array.prototype.slice.call( event.target.parentNode.children );
-				var direction = event.keyCode === 37 ? -1 : 1;
-				var nextElementIndex = lessonList.indexOf( event.target ) + direction;
-				
-				if (nextElementIndex > -1 && nextElementIndex < lessonList.length ) {
-					lessonList[nextElementIndex].focus();
-				}
-			} else if (event.keyCode === 13) {
-				event.target.classList.add('selected');
-				
-				window.setTimeout(function(){
-					gotoLesson(lesson);
-				}, 300);
-			}
-		};
-	}
+        startingScore: 2000,
+        expectedChanges: 200,
+        expectedSeconds: 240,
+        link: "lessons/formatting.html",
+      };
 
-	var lessonChoicesElement = document.getElementById("lesson-choices");
-	var lessonTemplateElementString = document.getElementById("template-lesson-choice").outerHTML;
-	lessons.forEach(function( lesson ){
-		lessonChoicesElement.insertAdjacentHTML('beforeend', lessonTemplateElementString
-			.replace('id="template-lesson-choice"', '')
-			.replace("{{TITLE}}", lesson.title)
-			.replace("{{DESCRIPTION}}", lesson.description));
-		var lessonChoice = lessonChoicesElement.lastChild;
-		lessonChoice.setAttribute('tabindex', "0");
-		lessonChoice.addEventListener('keyup', lessonKeypress(lesson));
-		lessonChoice.addEventListener('click', function() {
-			return gotoLesson(lesson);
-		});
-	});
+      var mouseLesson = {
+        title: "Using your mouse",
+        description:
+          "Learn to use your mouse with your voice, eye tracker is not needed!",
+        startingContent: ``,
+        expectedContent: `aaaasdfffdssad133z09543270`,
+        startingScore: 2000,
+        expectedChanges: 200,
+        expectedSeconds: 300,
+        link: "lessons/mouse.html",
+      };
 
-	var setChallengeMode = function(event){
-		if (window.localStorage) {
-			window.localStorage.setItem("talon-practice-challengemode", event.target.checked == true ? "true" : "false");
-		}
-	};
-	
-	var challengeMode = document.getElementById("challenge_mode");
-	challengeMode.checked = window.localStorage && window.localStorage.getItem("talon-practice-challengemode") == "true";
-</script>
-</body>
+      var browserLesson = {
+        title: "Browsing the web",
+        description:
+          "Get comfy with the tool you are probably using right now, to look for stuff on the web and browse around like you normally do.",
+        startingContent: ``,
+        expectedContent: ``,
+        startingScore: 2000,
+        expectedChanges: 200,
+        expectedSeconds: 180,
+        link: "lessons/browser.html",
+      };
+
+      var gotoLesson = function (lesson) {
+        window.open(lesson.link, "_blank");
+      };
+
+      var lessons = [
+        alphabetLesson,
+        specialCharacterLesson,
+        textCursorNavigation,
+        fixingMistakesLesson,
+        copyPasteLesson,
+        formattingLesson,
+        mouseLesson,
+        browserLesson,
+      ];
+      var lessonKeypress = function (lesson) {
+        return function (event) {
+          if (event.keyCode === 37 || event.keyCode === 39) {
+            var lessonList = Array.prototype.slice.call(
+              event.target.parentNode.children
+            );
+            var direction = event.keyCode === 37 ? -1 : 1;
+            var nextElementIndex = lessonList.indexOf(event.target) + direction;
+
+            if (nextElementIndex > -1 && nextElementIndex < lessonList.length) {
+              lessonList[nextElementIndex].focus();
+            }
+          } else if (event.keyCode === 13) {
+            event.target.classList.add("selected");
+
+            window.setTimeout(function () {
+              gotoLesson(lesson);
+            }, 300);
+          }
+        };
+      };
+
+      var lessonChoicesElement = document.getElementById("lesson-choices");
+      var lessonTemplateElementString = document.getElementById(
+        "template-lesson-choice"
+      ).outerHTML;
+      lessons.forEach(function (lesson) {
+        lessonChoicesElement.insertAdjacentHTML(
+          "beforeend",
+          lessonTemplateElementString
+            .replace('id="template-lesson-choice"', "")
+            .replace("{{TITLE}}", lesson.title)
+            .replace("{{DESCRIPTION}}", lesson.description)
+        );
+        var lessonChoice = lessonChoicesElement.lastChild;
+        lessonChoice.setAttribute("tabindex", "0");
+        lessonChoice.addEventListener("keyup", lessonKeypress(lesson));
+        lessonChoice.addEventListener("click", function () {
+          return gotoLesson(lesson);
+        });
+      });
+
+      var setChallengeMode = function (event) {
+        if (window.localStorage) {
+          window.localStorage.setItem(
+            "talon-practice-challengemode",
+            event.target.checked == true ? "true" : "false"
+          );
+        }
+      };
+
+      var challengeMode = document.getElementById("challenge_mode");
+      challengeMode.checked =
+        window.localStorage &&
+        window.localStorage.getItem("talon-practice-challengemode") == "true";
+    </script>
+  </body>
 </html>
