@@ -1,182 +1,289 @@
 <!DOCTYPE html>
 <html lang="en">
-<title>Talon Practice</title>
-<head>
-<link rel="stylesheet" href="../styles.css" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ace.min.js" type="text/javascript" charset="utf-8"></script>
-</head>
-<body>
-<div class="template-elements"></div>
+  <title>Talon Practice</title>
+  <head>
+    <link rel="stylesheet" href="../styles.css" />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ace.min.js"
+      type="text/javascript"
+      charset="utf-8"
+    ></script>
+  </head>
+  <body>
+    <div class="template-elements"></div>
 
-<div id="overlay">
-	<div class="lesson-view" id="current-lesson">
-		<header>
-			<div class="left-area">
-				<h1>Using your mouse</h1>
-				<p>
-					You are getting pretty decent at using the keyboard, but if you want to use your computer to the full, you need a way to control your mouse. This exersize is about doing just that!
-					You are going to navigate the mouse around on this page, and select the text all the way at the bottom, then you will select that text and paste it over to the text area.
-				</p>
-				<p>Expected result</p>
-			</div>
-			<div class="right-area">
-				<button id="toggle-help" tabindex="0" onclick="toggleHelp()" onkeyup="dynamicKeypress(event)">Show highscores</button>			
-				<button id="toggle-game" onclick="toggleGame()" tabindex="0" onkeyup="dynamicKeypress(event)">Start game</button>
-				<button id="close-lesson" onclick="window.close()" tabindex="0" onkeyup="dynamicKeypress(event)">Close</button>
-				<p id="timer">00:00.0</p>
-			</div>
-		</header>
-		<div id="editor"></div>
-			
-		<section class="sidebar">
-			<div id="help-sidebar" class="opened">
-				<p>
-					If you have seen the demos of Talon, you have probably noticed that a lot of people use an eyetracker to move the mouse around. For this lesson however, this is completely optional.
-					On your mouse there are a number of buttons you can press, each with a different function. Saying <span class="text-emphasis">touch</span> will click the left mouse button, and saying <span class="text-emphasis">righty</span> will click the right.
-					If you need to get fancy with the middle button, you can say <span class="text-emphasis">midclick</span>. <br/>
-					Often, you will need to double click things, for example, in the case you want to select something. In that case, you cay say <span class="text-emphasis">duke</span> for a double click, or <span class="text-emphasis">tripclick</span> to click three times.
-					Now, this will get you far enough to select a single line, or a single word, but often times, you want to copy a large piece of text with multiple sentences. For this, we can use the <span class="text-emphasis">drag</span> command to start dragging, and
-					<span class="text-emphasis">drag close</span> to end the drag.
-					<br/>
-					<br/>
-					One feature of your middle mouse button, is that it allows scrolling. Saying <span class="text-emphasis">page down</span> will scroll down a full page, and saying <span class="text-emphasis">page up</span> will scroll up a full page.
-					There are a number of other scroll commands, like <span class="text-emphasis">wheel down</span> and <span class="text-emphasis">wheel up</span> to do activate a single scroll notch on your middle mouse wheel.
-					<br/>
-					<br/>
-					All of these commands can be found here: <a href="https://github.com/knausj85/knausj_talon/blob/main/plugin/mouse/mouse.talon">plugin/mouse/mouse.talon</a>.
-				</p>
-				<p>
-					Mouse movement is a whole different ball game. This is often where an eyetracker comes in handy, but we can move our mouse cursor around without this tool as well. For this, we use something called the mouse grid.
-					<br/><br/> 
-					What mouse grid does is give you a grid on top of your screen with numbers. You can say these numbers to move the mouse to that specific square. It will then open up a new square where you can continue to navigate deeper to place the cursor more precisely. <br/>
-					To activate the mouse grid, say <span class="text-emphasis">mouse grid</span>, if you want to close it again, say <span class="text-emphasis">grid off</span>. When you have the grid open, you can move your mouse to a square using the command <span class="text-emphasis">grid one</span>.
-					You can replace the one with any of the nine numbers you see on the screen. Now, you will see a number of squares again, and you can say a number between 1 and 9 again, until you are satisfied with the position. <br/>
-					After you have placed your mouse where you want it, you cay say <span class="text-emphasis">grid reset</span> make the grid plane reset itself to the full screen. <br/>
-					Using the mouse grid takes some practice, but if getting an eyetracker is not an option at the moment, it does make it possible to use the mouse.
-				</p>
-				<p>
-					All the mouse grid code can be found here in various files: <a href="https://github.com/knausj85/knausj_talon/tree/main/core/mouse_grid">core/mouse_grid</a>.
-				</p>
-			</div>
-			<div id="help-sidebar-2">
-				<p>
-					Your task is to click on this button below. This will put the text area where you need to copy things from all the way at the bottom of the page.
-					You need to scroll down, select the text, and then scroll up again to place it in the text area to your left.
-					Once you are done, saying <span class="text-emphasis">Escape Enter</span> will end the lesson.
-				</p>
-				<button id="lesson-button" onclick="showTextArea()" tabindex="-1">Click on me using the mouse</button>
-			</div>
-			<div id="after-game">
-				<h3 id="calculated-score"></h3>
-				<div id="score-explanation"></div>
-				<div id="highscore"></div>
-			</div>
-		</section>
-		<div id="editor2" class="left"></div>
-	</div>
-</div>
-<script src="../core.js" type="text/javascript" charset="utf-8"></script>
-<script>
-	var mouseLesson = {
-		title: "Using your mouse",
-		description: "Learn to use your mouse with your voice, eyetracker is not needed!",
-		startingContent: ``,
-		expectedContent: `-----BEGIN PUBLIC KEY-----
+    <div id="overlay">
+      <div class="lesson-view" id="current-lesson">
+        <header>
+          <div class="left-area">
+            <h1>Using your mouse</h1>
+            <p>
+              You are getting pretty decent at using the keyboard, but if you
+              want to use your computer to the full, you need a way to control
+              your mouse. This exersize is about doing just that! You are going
+              to navigate the mouse around on this page, and select the text all
+              the way at the bottom, then you will select that text and paste it
+              over to the text area.
+            </p>
+            <p>Expected result</p>
+          </div>
+          <div class="right-area">
+            <button
+              id="toggle-help"
+              tabindex="0"
+              onclick="toggleHelp()"
+              onkeyup="dynamicKeypress(event)"
+            >
+              Show highscores
+            </button>
+            <button
+              id="toggle-game"
+              onclick="toggleGame()"
+              tabindex="0"
+              onkeyup="dynamicKeypress(event)"
+            >
+              Start game
+            </button>
+            <button
+              id="close-lesson"
+              onclick="window.close()"
+              tabindex="0"
+              onkeyup="dynamicKeypress(event)"
+            >
+              Close
+            </button>
+            <p id="timer">00:00.0</p>
+          </div>
+        </header>
+        <div id="editor"></div>
+
+        <section class="sidebar">
+          <div id="help-sidebar" class="opened">
+            <p>
+              If you have seen the demos of Talon, you have probably noticed
+              that a lot of people use an eyetracker to move the mouse around.
+              For this lesson however, this is completely optional. On your
+              mouse there are a number of buttons you can press, each with a
+              different function. Saying
+              <span class="text-emphasis">touch</span> will click the left mouse
+              button, and saying <span class="text-emphasis">righty</span> will
+              click the right. If you need to get fancy with the middle button,
+              you can say <span class="text-emphasis">midclick</span>. <br />
+              Often, you will need to double click things, for example, in the
+              case you want to select something. In that case, you cay say
+              <span class="text-emphasis">duke</span> for a double click, or
+              <span class="text-emphasis">tripclick</span> to click three times.
+              Now, this will get you far enough to select a single line, or a
+              single word, but often times, you want to copy a large piece of
+              text with multiple sentences. For this, we can use the
+              <span class="text-emphasis">drag</span> command to start dragging,
+              and <span class="text-emphasis">drag close</span> to end the drag.
+              <br />
+              <br />
+              One feature of your middle mouse button, is that it allows
+              scrolling. Saying
+              <span class="text-emphasis">page down</span> will scroll down a
+              full page, and saying
+              <span class="text-emphasis">page up</span> will scroll up a full
+              page. There are a number of other scroll commands, like
+              <span class="text-emphasis">wheel down</span> and
+              <span class="text-emphasis">wheel up</span> to do activate a
+              single scroll notch on your middle mouse wheel.
+              <br />
+              <br />
+              All of these commands can be found here:
+              <a
+                href="https://github.com/knausj85/knausj_talon/blob/main/plugin/mouse/mouse.talon"
+                >plugin/mouse/mouse.talon</a
+              >.
+            </p>
+            <p>
+              Mouse movement is a whole different ball game. This is often where
+              an eyetracker comes in handy, but we can move our mouse cursor
+              around without this tool as well. For this, we use something
+              called the mouse grid.
+              <br /><br />
+              What mouse grid does is give you a grid on top of your screen with
+              numbers. You can say these numbers to move the mouse to that
+              specific square. It will then open up a new square where you can
+              continue to navigate deeper to place the cursor more precisely.
+              <br />
+              To activate the mouse grid, say
+              <span class="text-emphasis">mouse grid</span>, if you want to
+              close it again, say <span class="text-emphasis">grid off</span>.
+              When you have the grid open, you can move your mouse to a square
+              using the command <span class="text-emphasis">grid one</span>. You
+              can replace the one with any of the nine numbers you see on the
+              screen. Now, you will see a number of squares again, and you can
+              say a number between 1 and 9 again, until you are satisfied with
+              the position. <br />
+              After you have placed your mouse where you want it, you cay say
+              <span class="text-emphasis">grid reset</span> make the grid plane
+              reset itself to the full screen. <br />
+              Using the mouse grid takes some practice, but if getting an
+              eyetracker is not an option at the moment, it does make it
+              possible to use the mouse.
+            </p>
+            <p>
+              All the mouse grid code can be found here in various files:
+              <a
+                href="https://github.com/knausj85/knausj_talon/tree/main/core/mouse_grid"
+                >core/mouse_grid</a
+              >.
+            </p>
+          </div>
+          <div id="help-sidebar-2">
+            <p>
+              Your task is to click on this button below. This will put the text
+              area where you need to copy things from all the way at the bottom
+              of the page. You need to scroll down, select the text, and then
+              scroll up again to place it in the text area to your left. Once
+              you are done, saying
+              <span class="text-emphasis">Escape Enter</span> will end the
+              lesson.
+            </p>
+            <button id="lesson-button" onclick="showTextArea()" tabindex="-1">
+              Click on me using the mouse
+            </button>
+          </div>
+          <div id="after-game">
+            <h3 id="calculated-score"></h3>
+            <div id="score-explanation"></div>
+            <div id="highscore"></div>
+          </div>
+        </section>
+        <div id="editor2" class="left"></div>
+      </div>
+    </div>
+    <script src="../core.js" type="text/javascript" charset="utf-8"></script>
+    <script>
+      var mouseLesson = {
+        title: "Using your mouse",
+        description:
+          "Learn to use your mouse with your voice, eyetracker is not needed!",
+        startingContent: ``,
+        expectedContent: `-----BEGIN PUBLIC KEY-----
 ThisIsntReallyAPublicKeyButIJustNeededToThinkOfSomethingLongThat
 NoSanePersonWouldWillinglySpellUsingTheAlphabetSoThereYouGo
 HintIfYouNeedToDragMoreTextJustUseDragAndDragClose
 -----END PUBLIC KEY-----`,
-		startingScore: 2000,
-		expectedChanges: 200,
-		expectedSeconds: 180,
-		link: 'lessons/mouse.html'
-	};
-	
-	setLesson(mouseLesson);
-	
-	var toggleGame = function() {
-		gameStarted = !gameStarted;
-		if (timerInterval) {
-			clearInterval(timerInterval);
-		}
-		
-		if (gameStarted) {
-			document.getElementById("help-sidebar").classList.remove('opened');
-			document.getElementById("help-sidebar-2").classList.add('opened');
-			document.getElementById("editor2").classList.remove('left');
-			document.getElementById("editor").style.display = 'block';
-			document.getElementById("editor2").classList.add('invisible');
-			document.getElementById("editor2").classList.add('bottom');
-			document.getElementById("close-lesson").style.display = 'none';
-			document.getElementById("after-game").classList.remove('opened');
-			reset();
-			document.getElementById("toggle-game").innerHTML = "Stop game";
-			editor.setValue(currentLesson.startingContent);
-			editor.focus();
-			
-			startDateTime = new Date().getTime();			
-			timerInterval = setInterval(updateTimer, 100);
-		} else {
-			document.getElementById("editor").style.display = 'none';		
-			document.getElementById("close-lesson").style.display = 'inline-block';			
-			document.getElementById("help-sidebar").classList.remove('opened');
-			document.getElementById("help-sidebar-2").classList.remove('opened');
-			document.getElementById("editor2").classList.add('left');
-			document.getElementById("editor2").classList.remove('invisible');
-			document.getElementById("editor2").classList.remove('bottom');
-			document.getElementById("after-game").classList.add('opened');
-			document.getElementById("toggle-help").innerHTML = 'Show help';
+        startingScore: 2000,
+        expectedChanges: 200,
+        expectedSeconds: 180,
+        link: "lessons/mouse.html",
+      };
 
-			document.getElementById("toggle-game").innerHTML = "Start game";
-			var endDateTime = new Date().getTime();
-			
-			if ( competitiveMode ) {
-				var score = currentLesson.startingScore;
-				var levenshtein = compareStringEquality( editor.getValue(), currentLesson.expectedContent );
-				var scoreExplanation = "Starting score: " + score + "<br/>";
-				if ( levenshtein === 0 ) {
-					scoreExplanation += "<strong>Perfect match!</strong> <span style=\"color: green;\">+" + score + "</span><br/>";
-					score *= 2;
-				} else {
-					scoreExplanation += "Expected result not reached: <span style=\"color: red;\">-50</span> for each character difference (" + levenshtein + ")<br/>";			
-					score -= levenshtein * 50;
-				}
-				
-				var usedSeconds = Math.floor( endDateTime - startDateTime ) / 1000;
-				if ( usedSeconds < currentLesson.expectedSeconds ) {
-					scoreExplanation += "You used less time than expected! <span style=\"color: green;\">+25</span> for each second saved (" + Math.floor( currentLesson.expectedSeconds - usedSeconds ) + ")<br/>";
-					score += Math.floor( currentLesson.expectedSeconds - usedSeconds ) * 25;
-				}
+      setLesson(mouseLesson);
 
-				score = Math.max( 0, score );
-				document.getElementById("calculated-score").innerHTML = 'Your score: <span class="primary">' + score + "</span>";
-				document.getElementById("score-explanation").innerHTML = scoreExplanation;
-				
-				if ( window.localStorage ){
-					var currentLeaderBoard = JSON.parse(window.localStorage.getItem("talon-practice-scoreboard"));
-					if (!currentLeaderBoard ) {
-						currentLeaderBoard = {};
-					}
-					
-					if (!currentLeaderBoard.hasOwnProperty(currentLesson.title)){
-						currentLeaderBoard[currentLesson.title] = [];
-					}
-					
-					currentLeaderBoard[currentLesson.title].push({score: score, time: usedSeconds * 1000, perfect: levenshtein == 0, runAt: endDateTime});
-					window.localStorage.setItem("talon-practice-scoreboard", JSON.stringify(currentLeaderBoard));
-				}
-				
-				updateHighscores(currentLesson);		
-			} else {
-				document.getElementById("help-sidebar").classList.add('opened');
-				document.getElementById("after-game").classList.remove('opened');			
-			}
-		}
-	}
-	
-	var showTextArea = function() {
-		document.getElementById('editor2').classList.remove('invisible');
-	};
-</script>
-</body>
+      var toggleGame = function () {
+        gameStarted = !gameStarted;
+        if (timerInterval) {
+          clearInterval(timerInterval);
+        }
+
+        if (gameStarted) {
+          document.getElementById("help-sidebar").classList.remove("opened");
+          document.getElementById("help-sidebar-2").classList.add("opened");
+          document.getElementById("editor2").classList.remove("left");
+          document.getElementById("editor").style.display = "block";
+          document.getElementById("editor2").classList.add("invisible");
+          document.getElementById("editor2").classList.add("bottom");
+          document.getElementById("close-lesson").style.display = "none";
+          document.getElementById("after-game").classList.remove("opened");
+          reset();
+          document.getElementById("toggle-game").innerHTML = "Stop game";
+          editor.setValue(currentLesson.startingContent);
+          editor.focus();
+
+          startDateTime = new Date().getTime();
+          timerInterval = setInterval(updateTimer, 100);
+        } else {
+          document.getElementById("editor").style.display = "none";
+          document.getElementById("close-lesson").style.display =
+            "inline-block";
+          document.getElementById("help-sidebar").classList.remove("opened");
+          document.getElementById("help-sidebar-2").classList.remove("opened");
+          document.getElementById("editor2").classList.add("left");
+          document.getElementById("editor2").classList.remove("invisible");
+          document.getElementById("editor2").classList.remove("bottom");
+          document.getElementById("after-game").classList.add("opened");
+          document.getElementById("toggle-help").innerHTML = "Show help";
+
+          document.getElementById("toggle-game").innerHTML = "Start game";
+          var endDateTime = new Date().getTime();
+
+          if (competitiveMode) {
+            var score = currentLesson.startingScore;
+            var levenshtein = compareStringEquality(
+              editor.getValue(),
+              currentLesson.expectedContent
+            );
+            var scoreExplanation = "Starting score: " + score + "<br/>";
+            if (levenshtein === 0) {
+              scoreExplanation +=
+                '<strong>Perfect match!</strong> <span style="color: green;">+' +
+                score +
+                "</span><br/>";
+              score *= 2;
+            } else {
+              scoreExplanation +=
+                'Expected result not reached: <span style="color: red;">-50</span> for each character difference (' +
+                levenshtein +
+                ")<br/>";
+              score -= levenshtein * 50;
+            }
+
+            var usedSeconds = Math.floor(endDateTime - startDateTime) / 1000;
+            if (usedSeconds < currentLesson.expectedSeconds) {
+              scoreExplanation +=
+                'You used less time than expected! <span style="color: green;">+25</span> for each second saved (' +
+                Math.floor(currentLesson.expectedSeconds - usedSeconds) +
+                ")<br/>";
+              score +=
+                Math.floor(currentLesson.expectedSeconds - usedSeconds) * 25;
+            }
+
+            score = Math.max(0, score);
+            document.getElementById("calculated-score").innerHTML =
+              'Your score: <span class="primary">' + score + "</span>";
+            document.getElementById("score-explanation").innerHTML =
+              scoreExplanation;
+
+            if (window.localStorage) {
+              var currentLeaderBoard = JSON.parse(
+                window.localStorage.getItem("talon-practice-scoreboard")
+              );
+              if (!currentLeaderBoard) {
+                currentLeaderBoard = {};
+              }
+
+              if (!currentLeaderBoard.hasOwnProperty(currentLesson.title)) {
+                currentLeaderBoard[currentLesson.title] = [];
+              }
+
+              currentLeaderBoard[currentLesson.title].push({
+                score: score,
+                time: usedSeconds * 1000,
+                perfect: levenshtein == 0,
+                runAt: endDateTime,
+              });
+              window.localStorage.setItem(
+                "talon-practice-scoreboard",
+                JSON.stringify(currentLeaderBoard)
+              );
+            }
+
+            updateHighscores(currentLesson);
+          } else {
+            document.getElementById("help-sidebar").classList.add("opened");
+            document.getElementById("after-game").classList.remove("opened");
+          }
+        }
+      };
+
+      var showTextArea = function () {
+        document.getElementById("editor2").classList.remove("invisible");
+      };
+    </script>
+  </body>
 </html>

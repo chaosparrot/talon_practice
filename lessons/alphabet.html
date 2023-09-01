@@ -1,139 +1,191 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<title>Talon Practice</title>
-<link rel="stylesheet" href="../styles.css" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ace.min.js" type="text/javascript" charset="utf-8"></script>
-</head>
-<body>
-<div class="template-elements"></div>
+  <head>
+    <title>Talon Practice</title>
+    <link rel="stylesheet" href="../styles.css" />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ace.min.js"
+      type="text/javascript"
+      charset="utf-8"
+    ></script>
+  </head>
+  <body>
+    <div class="template-elements"></div>
 
-<div id="overlay">
-	<div class="lesson-view" id="current-lesson">
-		<header>
-			<div class="left-area">
-				<h1>Talon alphabet</h1>
-				<p>This lesson is all about learning the Talon alphabet. On the right is a brief overview of all the different letters and their Talon counterparts.
-				You can start the lesson by using <span class="text-emphasis">go right</span> and then <span class="text-emphasis">enter</span> or <span class="text-emphasis">snap</span>. You can stop the time by saying <span class="text-emphasis">Escape enter</span>.
-				Don't worry if you get stuff wrong like your cursor bouncing around or wrong characters being placed. You will learn correcting these mistakes in later lessons.<br/>
-				If you wish to leave this lesson, you can press the 'Close' button, or simply say <span class="text-emphasis">Control Whale</span> to press Ctrl+W to close this tab.
-				</p>
-				<p>Expected result</p>
-			</div>
-			<div class="right-area">
-				<button id="toggle-help" tabindex="0" onclick="toggleHelp()" onkeyup="dynamicKeypress(event)">Show highscores</button>			
-				<button id="toggle-game" onclick="toggleGame()" tabindex="0" onkeyup="dynamicKeypress(event)">Start game</button>
-				<button id="close-lesson" onclick="window.close()" tabindex="0" onkeyup="dynamicKeypress(event)">Close</button>
-				<p id="timer">00:00.0</p>
-			</div>
-		</header>
-		<div id="editor"></div>
-			
-		<section class="sidebar">
-			<div id="help-sidebar" class="opened">
-				<p>Before you learn how to say words that make letters appear, we will go through how to activate the help menu for the alphabet.
-				Saying <span class="text-emphasis">help alphabet</span> will make a context menu appear with all the letters and their linked words. If you want to close it again, you can say <span class="text-emphasis">help close</span>.
-				<br/>
-				Below you will find the alphabet as it is presented by default in the knausj repository.
-				<table>
-					<tbody>
-						<tr>
-							<td>A</td>
-							<td class="text-emphasis">Air</td>
-							<td>B</td>
-							<td class="text-emphasis">Bat</td>
-							<td>C</td>
-							<td class="text-emphasis">Cap</td>
-							<td>D</td>
-							<td class="text-emphasis">Drum</td>
-							<td>E</td>
-							<td class="text-emphasis">Each</td>
-							<td>F</td>
-							<td class="text-emphasis">Fine</td>
-						</tr>
-						<tr>
-							<td>G</td>
-							<td class="text-emphasis">Gust</td>
-							<td>H</td>
-							<td class="text-emphasis">Harp</td>
-							<td>I</td>
-							<td class="text-emphasis">Sit</td>
-							<td>J</td>
-							<td class="text-emphasis">Jury</td>
-							<td>K</td>
-							<td class="text-emphasis">Krunch</td>
-							<td>L</td>
-							<td class="text-emphasis">Look</td>
-						</tr>
-						<tr>
-							<td>M</td>
-							<td class="text-emphasis">Made</td>
-							<td>N</td>
-							<td class="text-emphasis">Near</td>
-							<td>O</td>
-							<td class="text-emphasis">Odd</td>
-							<td>P</td>
-							<td class="text-emphasis">Pit</td>
-							<td>Q</td>
-							<td class="text-emphasis">Quench</td>
-							<td>R</td>
-							<td class="text-emphasis">Red</td>
-						</tr>
-						<tr>
-							<td>S</td>
-							<td class="text-emphasis">Sun</td>
-							<td>T</td>
-							<td class="text-emphasis">Trap</td>
-							<td>U</td>
-							<td class="text-emphasis">Urge</td>
-							<td>V</td>
-							<td class="text-emphasis">Vest</td>
-							<td>W</td>
-							<td class="text-emphasis">Whale</td>
-							<td>X</td>
-							<td class="text-emphasis">Plex</td>
-						</tr>
-						<tr>
-							<td>Y</td>
-							<td class="text-emphasis">Yank</td>
-							<td>Z</td>
-							<td class="text-emphasis">Zip</td>
-							<td>Ctrl</td>
-							<td class="text-emphasis">Control</td>
-							<td>Shift</td>
-							<td class="text-emphasis">Shift</td>
-							<td>Esc</td>
-							<td class="text-emphasis">Escape</td>
-							<td>spacebar</td>
-							<td class="text-emphasis">Space</td>
-						</tr>
-					</tbody>
-				</table>
-				<p>This is based on the knausj_talon repository. As with almost anything else in Talon, you can change the words for specific letters around if they do not recognize well. On top of that, if you change the words, they will show up in the help menu for the alphabet as well!<br/>
-					They can be changed in the file settings/alphabet.csv inside knausj_talon.
-			</div>
-			<div id="after-game">
-				<h3 id="calculated-score"></h3>
-				<div id="score-explanation"></div>
-				<div id="highscore"></div>
-			</div>
-		</section>
-		<div id="editor2" class="left"></div>
-	</div>
-</div>
-<script src="../core.js" type="text/javascript" charset="utf-8"></script>
-<script>
-	var alphabetLesson = {
-		title: "Talon Alphabet",
-		description: "Learn the Talon alphabet.",
-		startingContent: "",
-		expectedContent: "abcdefghijklmnopqrstuvwxyz",
-		startingScore: 2000,
-		expectedChanges: 26,
-		expectedSeconds: 60
-	};
-	
-	setLesson(alphabetLesson);
-</script>
-</body>
+    <div id="overlay">
+      <div class="lesson-view" id="current-lesson">
+        <header>
+          <div class="left-area">
+            <h1>Talon alphabet</h1>
+            <p>
+              This lesson is all about learning the Talon alphabet. On the right
+              is a brief overview of all the different letters and their Talon
+              counterparts. You can start the lesson by using
+              <span class="text-emphasis">go right</span> and then
+              <span class="text-emphasis">enter</span> or
+              <span class="text-emphasis">snap</span>. You can stop the time by
+              saying <span class="text-emphasis">Escape enter</span>. Don't
+              worry if you get stuff wrong like your cursor bouncing around or
+              wrong characters being placed. You will learn correcting these
+              mistakes in later lessons.<br />
+              If you wish to leave this lesson, you can press the 'Close'
+              button, or simply say
+              <span class="text-emphasis">Control Whale</span> to press Ctrl+W
+              to close this tab.
+            </p>
+            <p>Expected result</p>
+          </div>
+          <div class="right-area">
+            <button
+              id="toggle-help"
+              tabindex="0"
+              onclick="toggleHelp()"
+              onkeyup="dynamicKeypress(event)"
+            >
+              Show highscores
+            </button>
+            <button
+              id="toggle-game"
+              onclick="toggleGame()"
+              tabindex="0"
+              onkeyup="dynamicKeypress(event)"
+            >
+              Start game
+            </button>
+            <button
+              id="close-lesson"
+              onclick="window.close()"
+              tabindex="0"
+              onkeyup="dynamicKeypress(event)"
+            >
+              Close
+            </button>
+            <p id="timer">00:00.0</p>
+          </div>
+        </header>
+        <div id="editor"></div>
+
+        <section class="sidebar">
+          <div id="help-sidebar" class="opened">
+            <p>
+              Before you learn how to say words that make letters appear, we
+              will go through how to activate the help menu for the alphabet.
+              Saying <span class="text-emphasis">help alphabet</span> will make
+              a context menu appear with all the letters and their linked words.
+              If you want to close it again, you can say
+              <span class="text-emphasis">help close</span>.
+              <br />
+              Below you will find the alphabet as it is presented by default in
+              the knausj repository.
+            </p>
+
+            <table>
+              <tbody>
+                <tr>
+                  <td>A</td>
+                  <td class="text-emphasis">Air</td>
+                  <td>B</td>
+                  <td class="text-emphasis">Bat</td>
+                  <td>C</td>
+                  <td class="text-emphasis">Cap</td>
+                  <td>D</td>
+                  <td class="text-emphasis">Drum</td>
+                  <td>E</td>
+                  <td class="text-emphasis">Each</td>
+                  <td>F</td>
+                  <td class="text-emphasis">Fine</td>
+                </tr>
+                <tr>
+                  <td>G</td>
+                  <td class="text-emphasis">Gust</td>
+                  <td>H</td>
+                  <td class="text-emphasis">Harp</td>
+                  <td>I</td>
+                  <td class="text-emphasis">Sit</td>
+                  <td>J</td>
+                  <td class="text-emphasis">Jury</td>
+                  <td>K</td>
+                  <td class="text-emphasis">Krunch</td>
+                  <td>L</td>
+                  <td class="text-emphasis">Look</td>
+                </tr>
+                <tr>
+                  <td>M</td>
+                  <td class="text-emphasis">Made</td>
+                  <td>N</td>
+                  <td class="text-emphasis">Near</td>
+                  <td>O</td>
+                  <td class="text-emphasis">Odd</td>
+                  <td>P</td>
+                  <td class="text-emphasis">Pit</td>
+                  <td>Q</td>
+                  <td class="text-emphasis">Quench</td>
+                  <td>R</td>
+                  <td class="text-emphasis">Red</td>
+                </tr>
+                <tr>
+                  <td>S</td>
+                  <td class="text-emphasis">Sun</td>
+                  <td>T</td>
+                  <td class="text-emphasis">Trap</td>
+                  <td>U</td>
+                  <td class="text-emphasis">Urge</td>
+                  <td>V</td>
+                  <td class="text-emphasis">Vest</td>
+                  <td>W</td>
+                  <td class="text-emphasis">Whale</td>
+                  <td>X</td>
+                  <td class="text-emphasis">Plex</td>
+                </tr>
+                <tr>
+                  <td>Y</td>
+                  <td class="text-emphasis">Yank</td>
+                  <td>Z</td>
+                  <td class="text-emphasis">Zip</td>
+                  <td>Ctrl</td>
+                  <td class="text-emphasis">Control</td>
+                  <td>Shift</td>
+                  <td class="text-emphasis">Shift</td>
+                  <td>Esc</td>
+                  <td class="text-emphasis">Escape</td>
+                  <td>spacebar</td>
+                  <td class="text-emphasis">Space</td>
+                </tr>
+              </tbody>
+            </table>
+            <p>
+              This is based on the knausj_talon repository. As with almost
+              anything else in Talon, you can change the words for specific
+              letters around if they do not recognize well. On top of that, if
+              you change the words, they will show up in the help menu for the
+              alphabet as well!<br />
+              They can be changed in the file settings/alphabet.csv inside
+              knausj_talon.
+            </p>
+          </div>
+
+          <div id="after-game">
+            <h3 id="calculated-score"></h3>
+            <div id="score-explanation"></div>
+            <div id="highscore"></div>
+          </div>
+        </section>
+        <div id="editor2" class="left"></div>
+      </div>
+    </div>
+    <script src="../core.js" type="text/javascript" charset="utf-8"></script>
+    <script>
+      var alphabetLesson = {
+        title: "Talon Alphabet",
+        description: "Learn the Talon alphabet.",
+        startingContent: "",
+        expectedContent: "abcdefghijklmnopqrstuvwxyz",
+        startingScore: 2000,
+        expectedChanges: 26,
+        expectedSeconds: 60,
+      };
+
+      setLesson(alphabetLesson);
+    </script>
+  </body>
 </html>
