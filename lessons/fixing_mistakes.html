@@ -1,76 +1,136 @@
 <!DOCTYPE html>
 <html lang="en">
-<title>Talon Practice</title>
-<head>
-<link rel="stylesheet" href="../styles.css" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ace.min.js" type="text/javascript" charset="utf-8"></script>
-</head>
-<body>
-<div class="template-elements"></div>
+  <title>Talon Practice</title>
+  <head>
+    <link rel="stylesheet" href="../styles.css" />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ace.min.js"
+      type="text/javascript"
+      charset="utf-8"
+    ></script>
+  </head>
+  <body>
+    <div class="template-elements"></div>
 
-<div id="overlay">
-	<div class="lesson-view" id="current-lesson">
-		<header>
-			<div class="left-area">
-				<h1>Dictation and fixing mistakes</h1>
-				<p>Whether you are typing or using voice to make stuff appear on your screen, you are bound to make some errors along the way.
-				You are going to pronounce a tongue twister, and this will probably make some mistakes. This practice session is going to be all about fixing those mistakes.
-				If you wish to leave this lesson, you can press the 'Close' button, or simply say <span class="text-emphasis">Control Whale</span> to press Ctrl+W to close this tab.
-				</p>
-				<p>Expected result</p>
-			</div>
-			<div class="right-area">
-				<button id="toggle-help" tabindex="0" onclick="toggleHelp()" onkeyup="dynamicKeypress(event)">Show highscores</button>			
-				<button id="toggle-game" onclick="toggleGame()" tabindex="0" onkeyup="dynamicKeypress(event)">Start game</button>
-				<button id="close-lesson" onclick="window.close()" tabindex="0" onkeyup="dynamicKeypress(event)">Close</button>
-				<p id="timer">00:00.0</p>
-			</div>
-		</header>
-		<div id="editor"></div>
-			
-		<section class="sidebar">
-			<div id="help-sidebar" class="opened">
-				<p>
-					Dictation is simple enough. Starting a sentence with the word <span class="text-emphasis">say</span> or <span class="text-emphasis">phrase</span> will turn on dictation mode and type out all the words you have said afterwards.
-					If you just want to add a single word, you can start the word using the phrase <span class="text-emphasis">word</span> as well.
-					This doesn't always turn out perfectly as you want, so you need ways to fix these mistakes.
-				</p>
-				<p>
-					The first way you can fix mistakes is the phrase <span class="text-emphasis">undo that</span>, this will undo the last action you did. <span class="text-emphasis">redo that</span> will undo the undoing.
-					For smaller mistakes, you might want to use the phrase <span class="text-emphasis">delete</span> which will press backspace to remove the last letter or your selection.
-				</p>
-				<p>
-					Now deleting single letters is fine and all, but you might get tired saying delete over and over again if you want to delete a long word or sentence. For this, you have a range of clear commands. <br/>
-					<span class="text-emphasis">clear line</span> for example will clear your entire current line. But you can also do a ton of things with your current cursor using direction words at the end.
-					You can put a direction like left, up, right and down after a clear command. Saying <span class="text-emphasis">clear word left</span> will clear the previous word, and <span class="text-emphasis">clear word right</span> will clear the next one.
-					But you can also say things like <span class="text-emphasis">clear way up</span> to delete everything between your current cursor and the start of the file. <br/>
-					Try playing around with commands <span class="text-emphasis">clear (direction)</span> and <span class="text-emphasis">clear way (direction)</span> to see what they do.<br/>
-					All of these cl commands can be found in here: <a href="https://github.com/knausj85/knausj_talon/blob/main/core/edit/edit.talon#L72">core/edit/edit.talon</a>
-				</p>
-			</div>
-			<div id="after-game">
-				<h3 id="calculated-score"></h3>
-				<div id="score-explanation"></div>
-				<div id="highscore"></div>
-			</div>
-		</section>
-		<div id="editor2" class="left"></div>
-	</div>
-</div>
-<script src="../core.js" type="text/javascript" charset="utf-8"></script>
-<script>
-	var errorLesson = {
-		title: "Dictation and fixing mistakes",
-		description: "",
-		startingContent: "",
-		expectedContent: "he threw three free throws",
-		startingScore: 1000,
-		expectedChanges: 200,
-		expectedSeconds: 300,
-		link: 'lessons/fixing_mistakes.html'
-	};
-	
-	setLesson(errorLesson);
-</script>
-</body>
+    <div id="overlay">
+      <div class="lesson-view" id="current-lesson">
+        <header>
+          <div class="left-area">
+            <h1>Dictation and fixing mistakes</h1>
+            <p>
+              Whether you are typing or using voice to make stuff appear on your
+              screen, you are bound to make some errors along the way. You are
+              going to pronounce a tongue twister, and this will probably make
+              some mistakes. This practice session is going to be all about
+              fixing those mistakes. If you wish to leave this lesson, you can
+              press the 'Close' button, or simply say
+              <span class="text-emphasis">Control Whale</span> to press Ctrl+W
+              to close this tab.
+            </p>
+            <p>Expected result</p>
+          </div>
+          <div class="right-area">
+            <button
+              id="toggle-help"
+              tabindex="0"
+              onclick="toggleHelp()"
+              onkeyup="dynamicKeypress(event)"
+            >
+              Show highscores
+            </button>
+            <button
+              id="toggle-game"
+              onclick="toggleGame()"
+              tabindex="0"
+              onkeyup="dynamicKeypress(event)"
+            >
+              Start game
+            </button>
+            <button
+              id="close-lesson"
+              onclick="window.close()"
+              tabindex="0"
+              onkeyup="dynamicKeypress(event)"
+            >
+              Close
+            </button>
+            <p id="timer">00:00.0</p>
+          </div>
+        </header>
+        <div id="editor"></div>
+
+        <section class="sidebar">
+          <div id="help-sidebar" class="opened">
+            <p>
+              Dictation is simple enough. Starting a sentence with the word
+              <span class="text-emphasis">say</span> or
+              <span class="text-emphasis">phrase</span> will turn on dictation
+              mode and type out all the words you have said afterwards. If you
+              just want to add a single word, you can start the word using the
+              phrase <span class="text-emphasis">word</span> as well. This
+              doesn't always turn out perfectly as you want, so you need ways to
+              fix these mistakes.
+            </p>
+            <p>
+              The first way you can fix mistakes is the phrase
+              <span class="text-emphasis">undo that</span>, this will undo the
+              last action you did.
+              <span class="text-emphasis">redo that</span> will undo the
+              undoing. For smaller mistakes, you might want to use the phrase
+              <span class="text-emphasis">delete</span> which will press
+              backspace to remove the last letter or your selection.
+            </p>
+            <p>
+              Now deleting single letters is fine and all, but you might get
+              tired saying delete over and over again if you want to delete a
+              long word or sentence. For this, you have a range of clear
+              commands. <br />
+              <span class="text-emphasis">clear line</span> for example will
+              clear your entire current line. But you can also do a ton of
+              things with your current cursor using direction words at the end.
+              You can put a direction like left, up, right and down after a
+              clear command. Saying
+              <span class="text-emphasis">clear word left</span> will clear the
+              previous word, and
+              <span class="text-emphasis">clear word right</span> will clear the
+              next one. But you can also say things like
+              <span class="text-emphasis">clear way up</span> to delete
+              everything between your current cursor and the start of the file.
+              <br />
+              Try playing around with commands
+              <span class="text-emphasis">clear (direction)</span> and
+              <span class="text-emphasis">clear way (direction)</span> to see
+              what they do.<br />
+              All of these cl commands can be found in here:
+              <a
+                href="https://github.com/knausj85/knausj_talon/blob/main/core/edit/edit.talon#L72"
+                >core/edit/edit.talon</a
+              >
+            </p>
+          </div>
+          <div id="after-game">
+            <h3 id="calculated-score"></h3>
+            <div id="score-explanation"></div>
+            <div id="highscore"></div>
+          </div>
+        </section>
+        <div id="editor2" class="left"></div>
+      </div>
+    </div>
+    <script src="../core.js" type="text/javascript" charset="utf-8"></script>
+    <script>
+      var errorLesson = {
+        title: "Dictation and fixing mistakes",
+        description: "",
+        startingContent: "",
+        expectedContent: "he threw three free throws",
+        startingScore: 1000,
+        expectedChanges: 200,
+        expectedSeconds: 300,
+        link: "lessons/fixing_mistakes.html",
+      };
+
+      setLesson(errorLesson);
+    </script>
+  </body>
 </html>

@@ -1,76 +1,152 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<title>Talon Practice</title>
-<link rel="stylesheet" href="../styles.css" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ace.min.js" type="text/javascript" charset="utf-8"></script>
-</head>
-<body>
-<div class="template-elements"></div>
+  <head>
+    <title>Talon Practice</title>
+    <link rel="stylesheet" href="../styles.css" />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ace.min.js"
+      type="text/javascript"
+      charset="utf-8"
+    ></script>
+  </head>
+  <body>
+    <div class="template-elements"></div>
 
-<div id="overlay">
-	<div class="lesson-view" id="current-lesson">
-		<header>
-			<div class="left-area">
-				<h1>Special characters</h1>
-				<p>These characters are used in all kinds of different ways depending on the programming language. You can't live without them.
-				You can start the lesson by using <span class="text-emphasis">go right</span> and then <span class="text-emphasis">enter</span> or <span class="text-emphasis">snap</span>. You can stop the time by saying <span class="text-emphasis">Escape enter</span>.
-				If you wish to leave this lesson, you can press the 'Close' button, or simply say <span class="text-emphasis">Control Whale</span> to press Ctrl+W to close this tab.
-				</p>
-				<p>Expected result</p>
-			</div>
-			<div class="right-area">
-				<button id="toggle-help" tabindex="0" onclick="toggleHelp()" onkeyup="dynamicKeypress(event)">Show highscores</button>			
-				<button id="toggle-game" onclick="toggleGame()" tabindex="0" onkeyup="dynamicKeypress(event)">Start game</button>
-				<button id="close-lesson" onclick="window.close()" tabindex="0" onkeyup="dynamicKeypress(event)">Close</button>
-				<p id="timer">00:00.0</p>
-			</div>
-		</header>
-		<div id="editor"></div>
-			
-		<section class="sidebar">
-			<div id="help-sidebar" class="opened">
-				<p>
-					Punctuation is important both for programming and for writing. . is <span class="text-emphasis">dot</span>, , is <span class="text-emphasis">comma</span>, ? is <span class="text-emphasis">question mark</span> and ! is <span class="text-emphasis">bang</span>.
-					As you can see, these are fairly logical, just like : being <span class="text-emphasis">colon</span> and ; being <span class="text-emphasis">semicolon</span>.<br/>
-					Quoting things can be handy as well, and you can use ` <span class="text-emphasis">back tick</span>, ' <span class="text-emphasis">quote</span> and " <span class="text-emphasis">dubquote</span> to place these characters. You might have to say <span class="text-emphasis">space</span> after these sounds to make them show up<br/>
+    <div id="overlay">
+      <div class="lesson-view" id="current-lesson">
+        <header>
+          <div class="left-area">
+            <h1>Special characters</h1>
+            <p>
+              These characters are used in all kinds of different ways depending
+              on the programming language. You can't live without them. You can
+              start the lesson by using
+              <span class="text-emphasis">go right</span> and then
+              <span class="text-emphasis">enter</span> or
+              <span class="text-emphasis">snap</span>. You can stop the time by
+              saying <span class="text-emphasis">Escape enter</span>. If you
+              wish to leave this lesson, you can press the 'Close' button, or
+              simply say <span class="text-emphasis">Control Whale</span> to
+              press Ctrl+W to close this tab.
+            </p>
+            <p>Expected result</p>
+          </div>
+          <div class="right-area">
+            <button
+              id="toggle-help"
+              tabindex="0"
+              onclick="toggleHelp()"
+              onkeyup="dynamicKeypress(event)"
+            >
+              Show highscores
+            </button>
+            <button
+              id="toggle-game"
+              onclick="toggleGame()"
+              tabindex="0"
+              onkeyup="dynamicKeypress(event)"
+            >
+              Start game
+            </button>
+            <button
+              id="close-lesson"
+              onclick="window.close()"
+              tabindex="0"
+              onkeyup="dynamicKeypress(event)"
+            >
+              Close
+            </button>
+            <p id="timer">00:00.0</p>
+          </div>
+        </header>
+        <div id="editor"></div>
 
-					Next up are the braces. There are multiple kinds of braces: {} which are <span class="text-emphasis">left brace</span> and <span class="text-emphasis">right brace</span>. () which are <span class="text-emphasis">left paren</span> and <span class="text-emphasis">right paren</span>, and [] which are <span class="text-emphasis">left square</span> and <span class="text-emphasis">right square</span>
-					and <>, which technically aren't braces, but can be activated using <span class="text-emphasis">left angle</span> and <span class="text-emphasis">right angle</span> respectively. <br/>
+        <section class="sidebar">
+          <div id="help-sidebar" class="opened">
+            <p>
+              Punctuation is important both for programming and for writing. .
+              is <span class="text-emphasis">dot</span>, , is
+              <span class="text-emphasis">comma</span>, ? is
+              <span class="text-emphasis">question mark</span> and ! is
+              <span class="text-emphasis">bang</span>. As you can see, these are
+              fairly logical, just like : being
+              <span class="text-emphasis">colon</span> and ; being
+              <span class="text-emphasis">semicolon</span>.<br />
+              Quoting things can be handy as well, and you can use `
+              <span class="text-emphasis">back tick</span>, '
+              <span class="text-emphasis">quote</span> and "
+              <span class="text-emphasis">dubquote</span> to place these
+              characters. You might have to say
+              <span class="text-emphasis">space</span> after these sounds to
+              make them show up<br />
 
-					Now there are a number of miscelanious signs that I couldn't really fit in a category, so I'll just list them out here.
+              Next up are the braces. There are multiple kinds of braces: {}
+              which are <span class="text-emphasis">left brace</span> and
+              <span class="text-emphasis">right brace</span>. () which are
+              <span class="text-emphasis">left paren</span> and
+              <span class="text-emphasis">right paren</span>, and [] which are
+              <span class="text-emphasis">left square</span> and
+              <span class="text-emphasis">right square</span> and <>, which
+              technically aren't braces, but can be activated using
+              <span class="text-emphasis">left angle</span> and
+              <span class="text-emphasis">right angle</span> respectively.
+              <br />
 
-					= <span class="text-emphasis">equals</span>, _ <span class="text-emphasis">down score</span>, - <span class="text-emphasis">minus</span>, + <span class="text-emphasis">plus</span>, * <span class="text-emphasis">star</span>,
-					# <span class="text-emphasis">hash</span>, / <span class="text-emphasis">slash</span>, \ <span class="text-emphasis">back slash</span>, $ <span class="text-emphasis">dollar</span>, % <span class="text-emphasis">percent</span>, ^ <span class="text-emphasis">caret</span>,
-					& <span class="text-emphasis">and sign</span>, | <span class="text-emphasis">pipe</span>, @ <span class="text-emphasis">at sign</span> and ~ for <span class="text-emphasis">tilde</span>.
+              Now there are a number of miscellaneous signs that I couldn't
+              really fit in a category, so I'll just list them out here. =
+              <span class="text-emphasis">equals</span>, _
+              <span class="text-emphasis">down score</span>, -
+              <span class="text-emphasis">minus</span>, +
+              <span class="text-emphasis">plus</span>, *
+              <span class="text-emphasis">star</span>, #
+              <span class="text-emphasis">hash</span>, /
+              <span class="text-emphasis">slash</span>, \
+              <span class="text-emphasis">back slash</span>, $
+              <span class="text-emphasis">dollar</span>, %
+              <span class="text-emphasis">percent</span>, ^
+              <span class="text-emphasis">caret</span>, &
+              <span class="text-emphasis">and sign</span>, |
+              <span class="text-emphasis">pipe</span>, @
+              <span class="text-emphasis">at sign</span> and ~ for
+              <span class="text-emphasis">tilde</span>.
+            </p>
+            <p>
+              This is based on the knausj_talon repository. As with almost
+              anything else in Talon, you can change the words for specific
+              symbols around if they do not recognize well.<br />
+              They can be changed here:
+              <a
+                href="https://github.com/knausj85/knausj_talon/blob/main/core/keys/keys.py#L176"
+                target="_blank"
+                >core/keys/keys.py</a
+              >.
+            </p>
+          </div>
 
-				</p>
-				<p>This is based on the knausj_talon repository. As with almost anything else in Talon, you can change the words for specific symbols around if they do not recognize well.<br/>
-					They can be changed here: <a href="https://github.com/knausj85/knausj_talon/blob/main/core/keys/keys.py#L176" target="_blank">core/keys/keys.py</a>.
-			</div>
-			<div id="after-game">
-				<h3 id="calculated-score"></h3>
-				<div id="score-explanation"></div>
-				<div id="highscore"></div>
-			</div>
-		</section>
-		<div id="editor2" class="left"></div>
-	</div>
-</div>
-<script src="../core.js" type="text/javascript" charset="utf-8"></script>
-<script>
-	var specialCharacterLesson = {
-		title: "Special characters",
-		description: "Get comfortable with most of the special characters used in programming.",
-		startingContent: "",
-		expectedContent: ".,?!:;`'\"{}()[]<>=_-+*#/\\\$%^&|@~",
-		startingScore: 2000,
-		expectedChanges: 35,
-		expectedSeconds: 60,
-		link: 'lessons/special_characters.html'
-	};
-	
-	setLesson(specialCharacterLesson);
-</script>
-</body>
+          <div id="after-game">
+            <h3 id="calculated-score"></h3>
+            <div id="score-explanation"></div>
+            <div id="highscore"></div>
+          </div>
+        </section>
+        <div id="editor2" class="left"></div>
+      </div>
+    </div>
+    <script src="../core.js" type="text/javascript" charset="utf-8"></script>
+    <script>
+      var specialCharacterLesson = {
+        title: "Special characters",
+        description:
+          "Get comfortable with most of the special characters used in programming.",
+        startingContent: "",
+        expectedContent: ".,?!:;`'\"{}()[]<>=_-+*#/\\\$%^&|@~",
+        startingScore: 2000,
+        expectedChanges: 35,
+        expectedSeconds: 60,
+        link: "lessons/special_characters.html",
+      };
+
+      setLesson(specialCharacterLesson);
+    </script>
+  </body>
 </html>
