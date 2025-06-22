@@ -79,8 +79,14 @@ section.sidebar {
   padding-top: 0;
 }
 
+a {
+  color: lightblue;
+  font-weight: bold;
+}
+
 a:visited {
   color: white;
+  font-weight: bold;
 }
 
 #expected-result {
